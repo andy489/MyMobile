@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+
+<div>
+    <header th:replace="~{fragments/commons::navigation}"></header>
+</div>
+
+<div class="container-fluid">
+    <h2 class="text-center text-white mt-5"
+        th:text="#{offers_details}">{Details}</h2>
+    <div class="offers row mx-auto d-flex flex-row justify-content-center"
+         th:object="${offerDetails}">
+        <div class="offer card col-sm-4 col-md-5 col-lg-5 m-1 p-0">
+
+            <div class="card-body pb-1">
+                <h5 class="card-title"
+                    th:text="#{offers_view_offer_year} + ': ' + *{created.getYear()}">
+                    {Year: 2023}
+                </h5>
+
+                <h5 class="card-title" th:text="#{offers_view_brand} + ': ' + *{brand}">
+                    {Brand: brand name}>
+                </h5>
+
+                <h5 class="card-title" th:text="#{offers_view_model} + ': ' + *{model}">
+                    {Model: model name}>
+                </h5>
+            </div>
+
+            <ul class="offer-details list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="card-text">
+                        <span th:text="#{offers_view_year} + ': ' + *{year}">{Year}</span>
+                    </div>
+                    <div class="card-text">
+                        <span th:text="#{offers_view_price} + ': ' + *{price} + ' ' + #{offers_view_EUR} ">{Price}</span>
+                    </div>
+                    <div class="card-text">
+                        <span th:text="#{offers_view_mileage} + ': ' + *{mileage} + ' ' + #{offers_view_km}">{Mileage}</span>
+                    </div>
+                    <div class="card-text">
+                        <span th:text="#{offers_view_engine} + ': ' + *{engineType}">{Engine type}</span>
+                    </div>
+                    <div class="card-text">
+                        <span th:text="#{offers_view_transmission} + ': ' + *{transmissionType}">{Transmission type}
+                        </span>
+                    </div>
+
+                    <!--More details-->
+                    <div class="card-text">
+                        <span th:text="#{offer_created} + ': ' + *{created}">{Created date}
+                        </span>
+                    </div>
+                    <div class="card-text">
+                        <span th:text="#{offer_modified} + ': ' + *{modified}">{Created date}
+                        </span>
+                    </div>
+                    <div class="card-text">
+                        <span th:text="#{offer_seller_full_name} + ': ' + ${offerDetails.getSellerFullName()}">
+                        {Seller - First and Last name}
+                        </span>
+                    </div>
+                </li>
+            </ul>
+
+
+            <div class="card-text mt-2">
+                <span class="ml-2" th:text="#{offer_short_desc} + ': ' + *{description}">{Description}</span>
+            </div>
+
+            <hr/>
+
+            <div class="card-body">
+
+                <a class="card-link btn-primary rounded p-2 font-weight-bold" href="/"
+                   th:text="#{offers_details_upd}">{Update}</a>
+
+                <a class="card-link btn-primary rounded p-2 font-weight-bold" href="/"
+                   th:text="#{offers_details_del}">{Delete}</a>
+
+            </div>
+        </div>
+
+
+        <div class="offer card col-sm-4 col-md-5 col-lg-5 m-1 p-0 shrinkable">
+
+            <div>
+                <img src="" class="card-img-top" alt="Car image" th:src="@{*{imageUrl}}">
+            </div>
+
+            <div class="d-flex justify-content-center mt-3">
+
+                <div class="shrinkable">
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{awd}">
+                        <input id="check-awd" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-awd"
+                               th:text="#{check_awd}">
+                            {4x4 All-wheel drive}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{climatic}">
+                        <input id="check-climatic" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-climatic"
+                               th:text="#{check_climatic}">
+                            {Climatic}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{parktronic}">
+                        <input id="check-parktronic" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-parktronic"
+                               th:text="#{check_parktronic}">
+                            {Parktronic}</label>
+                    </div>
+
+                </div>
+
+                <div class="shrinkable">
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{navi}">
+                        <input id="check-navi" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-navi" th:text="#{check_navi}">
+                            {Navigation}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{leasing}">
+                        <input id="check-leasing" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-leasing" th:text="#{check_leasing}">
+                            {Leasing}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{xenonLights}">
+                        <input id="check-xenon" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-xenon" th:text="#{check_xenon}">
+                            {Xenon lights}</label>
+                    </div>
+                </div>
+
+                <div class="shrinkable">
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{isofixSystem}">
+                        <input id="check-isofix" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-isofix" th:text="#{check_isofix}">
+                            {ISOFIX system}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{antiBlockingSystem}">
+                        <input id="check-anti-block" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-anti-block"
+                               th:text="#{check_anti_block}">
+                            {Anti-blocking system}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{cabriolet}">
+                        <input id="check-cabriolet" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-cabriolet"
+                               th:text="#{check_cabriolet}">
+                            {Cabriolet}</label>
+                    </div>
+                </div>
+
+                <div class="shrinkable">
+                    <div class="custom-control form-control-lg custom-checkbox" th:if="*{bluetooth}">
+                        <input id="check-bluetooth" type="checkbox" class="custom-control-input" checked disabled>
+                        <label class="custom-control-label text-black" for="check-bluetooth"
+                               th:text="#{check_bluetooth}">
+                            {Bluetooth/handsfree}</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div>
+    <footer th:replace="~{fragments/commons::footer}"></footer>
+
+</div>
+
+</body>
+</html>

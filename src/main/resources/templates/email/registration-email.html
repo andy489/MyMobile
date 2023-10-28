@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:text="#{registration_email_welcome}">Welcome to Mobilele!</h1>
+<div>
+    <th:block th:text="#{registration_email_dear_user(${username})}"></th:block>
+    <p th:text="#{registration_email_happy}"> We are happy to have you as a part of our community!</p>
+    <p th:text="#{registration_email_best_regards}">Best regards, The Mobilele team.</p>
+</div>
+</body>
+</html>

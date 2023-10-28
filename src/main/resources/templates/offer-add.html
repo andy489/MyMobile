@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+
+<div>
+    <header th:replace="~{fragments/commons::navigation}"></header>
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white" th:text="#{offer_upload_title}">{Upload Offer}</h2>
+    <form th:method="post"
+          th:action="@{/offers/add}"
+          th:object="${offerAddModel}"
+          class="main-form mx-auto col-md-10 d-flex flex-column justify-content-center">
+        <div class="row">
+
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="model-add"
+                       th:text="#{offer_upload_model_label}">{Model}</label>
+                <select id="model-add"
+                        th:field="*{modelId}"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="" th:text="#{offer_upload_model_place}">{- Select a model -}</option>
+                    <optgroup th:each="brand : ${brands}"
+                              label="" th:label="${brand.name}">
+                        <option th:each="model : ${brand.models}"
+                                th:text="${model.name}"
+                                th:value="${model.id}"
+                                th:selected="${model.id} == *{modelId}">
+                            {Model}
+                        </option>
+                    </optgroup>
+                </select>
+                <div class="invalid-feedback errors alert alert-danger">
+                    <div th:each="err : ${#fields.errors('modelId')}" th:text="${err}"></div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+                <label for="price-add" class="text-white font-weight-bold"
+                       th:text="#{offer_upload_price_label}">{Price}</label>
+                <input id="price-add"
+                       th:field="*{price}"
+                       th:errorclass="is-invalid"
+                       type="text"
+                       class="form-control"
+                       th:placeholder="#{offer_upload_price_place}"/>
+                <div class="invalid-feedback errors alert alert-danger">
+                    <div th:each="err : ${#fields.errors('price')}" th:text="${err}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="engine-add"
+                       th:text="#{offer_upload_engine_label}">{Engine}</label>
+                <select id="engine-add"
+                        th:field="*{engineType}"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="" th:text="#{offer_upload_engine_place}">{- Select engine type -}</option>
+                    <option th:each="e : ${T(com.soft.mobilele.model.enumarated.EngineEnum).values()}"
+                            th:text="${e}"
+                            th:value="${e}"
+                            th:selected="${e} == *{engineType}">
+                        {Engine type}
+                    </option>
+                </select>
+                <div class="invalid-feedback errors alert alert-danger">
+                    <div th:each="err : ${#fields.errors('engineType')}" th:text="${err}"></div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="transmission-add"
+                       th:text="#{offer_upload_transmission_label}">{Transmission}</label>
+                <select id="transmission-add"
+                        th:field="*{transmissionType}"
+                        th:errorclass="is-invalid"
+                        class="form-control">
+                    <option value="" th:text="#{offer_upload_transmission_place}">{- Select transmission type -}
+                    </option>
+                    <option th:each="t : ${T(com.soft.mobilele.model.enumarated.TransmissionEnum).values()}"
+                            th:text="${t.getFullName()}"
+                            th:value="${t}"
+                            th:selected="${t} == *{transmissionType}">
+                        {Transmission type}
+                    </option>
+                </select>
+                <div class="invalid-feedback errors alert alert-danger">
+                    <div th:each="err : ${#fields.errors('transmissionType')}" th:text="${err}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="year-add" class="text-white font-weight-bold"
+                       th:text="#{offer_upload_year_label}">{Year}</label>
+                <input id="year-add"
+                       th:field="*{year}"
+                       th:errorclass="is-invalid"
+                       type="text"
+                       class="form-control"
+                       th:placeholder="#{offer_upload_year_place}"/>
+                <div class="invalid-feedback errors alert alert-danger">
+                    <div th:each="err : ${#fields.errors('year')}" th:text="${err}"></div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 mb-3">
+                <label for="mileage-add" class="text-white font-weight-bold"
+                       th:text="#{offer_upload_mileage_label}">{Mileage}</label>
+                <input id="mileage-add"
+                       th:field="*{mileage}"
+                       th:errorclass="is-invalid"
+                       type="text"
+                       class="form-control"
+                       th:placeholder="#{offer_upload_mileage_place}"/>
+                <div class="invalid-feedback errors alert alert-danger">
+                    <div th:each="err : ${#fields.errors('mileage')}" th:text="${err}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="text-white font-weight-bold" for="description-add"
+                   th:text="#{offer_upload_description_label}">{Description}</label>
+            <textarea id="description-add"
+                      th:field="*{description}"
+                      th:errorclass="is-invalid"
+                      type="textarea"
+                      class="form-control"
+                      rows="3"
+                      th:placeholder="#{offer_upload_description_place}">
+            </textarea>
+            <div class="invalid-feedback errors alert alert-danger">
+                <div th:each="err : ${#fields.errors('description')}" th:text="${err}"></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="text-white font-weight-bold" for="main-image-url-add"
+                   th:text="#{offer_upload_main_img_label}">{Image URL}</label>
+            <input id="main-image-url-add"
+                   th:field="*{imageUrl}"
+                   th:errorclass="is-invalid"
+                   type="text"
+                   class="form-control"
+                   th:placeholder="#{offer_upload_main_img_place}">
+            <div class="invalid-feedback errors alert alert-danger">
+                <div th:each="err : ${#fields.errors('imageUrl')}" th:text="${err}"></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+
+            <div clas="">
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-awd" type="checkbox" class="custom-control-input"
+                           th:field="*{awd}">
+                    <label class="custom-control-label text-white" for="check-awd" th:text="#{check_awd}">
+                        {4x4 All-wheel drive}</label>
+                </div>
+
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-climatic" type="checkbox" class="custom-control-input"
+                           th:field="*{climatic}">
+                    <label class="custom-control-label text-white" for="check-climatic" th:text="#{check_climatic}">
+                        {Climatic}</label>
+                </div>
+
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-parktronic" type="checkbox" class="custom-control-input"
+                           th:field="*{parktronic}">
+                    <label class="custom-control-label text-white" for="check-parktronic" th:text="#{check_parktronic}">
+                        {Parktronic}</label>
+                </div>
+
+            </div>
+
+            <div class="">
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-navi" type="checkbox" class="custom-control-input"
+                           th:field="*{navi}">
+                    <label class="custom-control-label text-white" for="check-navi" th:text="#{check_navi}">
+                        {Navigation}</label>
+                </div>
+
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-leasing" type="checkbox" class="custom-control-input"
+                           th:field="*{leasing}">
+                    <label class="custom-control-label text-white" for="check-leasing" th:text="#{check_leasing}">
+                        {Leasing}</label>
+                </div>
+
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-xenon" type="checkbox" class="custom-control-input"
+                           th:field="*{xenonLights}">
+                    <label class="custom-control-label text-white" for="check-xenon" th:text="#{check_xenon}">
+                        {Xenon lights}</label>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-isofix" type="checkbox" class="custom-control-input"
+                           th:field="*{isofixSystem}">
+                    <label class="custom-control-label text-white" for="check-isofix" th:text="#{check_isofix}">
+                        {ISOFIX system}</label>
+                </div>
+
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-anti-block" type="checkbox" class="custom-control-input"
+                           th:field="*{antiBlockingSystem}">
+                    <label class="custom-control-label text-white" for="check-anti-block" th:text="#{check_anti_block}">
+                        {Anti-blocking system}</label>
+                </div>
+
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-cabriolet" type="checkbox" class="custom-control-input"
+                           th:field="*{cabriolet}">
+                    <label class="custom-control-label text-white" for="check-cabriolet" th:text="#{check_cabriolet}">
+                        {Cabriolet}</label>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input id="check-bluetooth" type="checkbox" class="custom-control-input"
+                           th:field="*{bluetooth}">
+                    <label class="custom-control-label text-white" for="check-bluetooth" th:text="#{check_bluetooth}">
+                        {Bluetooth/handsfree}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-self-center mt-4 w-50">
+            <input type="submit" class="btn btn-info btn-lg w-100" th:value="#{offer_add_btn}"/>
+        </div>
+    </form>
+</div>
+
+<div>
+    <footer th:replace="~{fragments/commons::footer}"></footer>
+</div>
+
+</body>
+</html>
