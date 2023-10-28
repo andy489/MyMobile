@@ -40,20 +40,6 @@
                                type="search"
                                th:placeholder="#{offers_desc_infix}"/>
                     </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-awd" type="checkbox" class="custom-control-input"
-                               th:field="*{awd}">
-                        <label class="custom-control-label" for="check-awd" th:text="#{check_awd}">
-                            {4x4 All-wheel drive}</label>
-                    </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-xenon" type="checkbox" class="custom-control-input"
-                               th:field="*{xenonLights}">
-                        <label class="custom-control-label" for="check-xenon" th:text="#{check_xenon}">
-                            {Xenon lights}</label>
-                    </div>
                 </div>
             </div>
 
@@ -93,20 +79,6 @@
                             </option>
                         </select>
                     </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-climatic" type="checkbox" class="custom-control-input"
-                               th:field="*{climatic}">
-                        <label class="custom-control-label" for="check-climatic" th:text="#{check_climatic}">
-                            {Climatic}</label>
-                    </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-isofix" type="checkbox" class="custom-control-input"
-                               th:field="*{isofixSystem}">
-                        <label class="custom-control-label" for="check-isofix" th:text="#{check_isofix}">
-                            {ISOFIX system}</label>
-                    </div>
                 </div>
             </div>
 
@@ -130,20 +102,6 @@
                                type="search"
                                th:placeholder="#{offers_year_to}"/>
                         <p th:replace="~{fragments/commons::error-form-msg}"></p>
-                    </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-parktronic" type="checkbox" class="custom-control-input"
-                               th:field="*{parktronic}">
-                        <label class="custom-control-label" for="check-parktronic" th:text="#{check_parktronic}">
-                            {Parktronic}</label>
-                    </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-anti-block" type="checkbox" class="custom-control-input"
-                               th:field="*{antiBlockingSystem}">
-                        <label class="custom-control-label" for="check-anti-block" th:text="#{check_anti_block}">
-                            {Anti-blocking system}</label>
                     </div>
                 </div>
             </div>
@@ -169,20 +127,6 @@
                                type="search"
                                th:placeholder="#{offers_mileage_to}"/>
                         <p th:replace="~{fragments/commons::error-form-msg}"></p>
-                    </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-navi" type="checkbox" class="custom-control-input"
-                               th:field="*{navi}">
-                        <label class="custom-control-label" for="check-navi" th:text="#{check_navi}">
-                            {Navigation}</label>
-                    </div>
-
-                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-cabriolet" type="checkbox" class="custom-control-input"
-                               th:field="*{cabriolet}">
-                        <label class="custom-control-label" for="check-cabriolet" th:text="#{check_cabriolet}">
-                            {Cabriolet}</label>
                     </div>
                 </div>
             </div>
@@ -210,6 +154,78 @@
                         <p th:replace="~{fragments/commons::error-form-msg}"></p>
                     </div>
 
+                </div>
+            </div>
+
+<!--            Additional search menu: checkboxes-->
+            <div>
+                <div id="additional-check-col-1" class="d-inline-block">
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-awd" type="checkbox" class="custom-control-input"
+                               th:field="*{awd}">
+                        <label class="custom-control-label" for="check-awd" th:text="#{check_awd}">
+                            {4x4 All-wheel drive}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-xenon" type="checkbox" class="custom-control-input"
+                               th:field="*{xenonLights}">
+                        <label class="custom-control-label" for="check-xenon" th:text="#{check_xenon}">
+                            {Xenon lights}</label>
+                    </div>
+                </div>
+
+                <div id="additional-check-col-2" class="d-inline-block ml-1">
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-climatic" type="checkbox" class="custom-control-input"
+                               th:field="*{climatic}">
+                        <label class="custom-control-label" for="check-climatic" th:text="#{check_climatic}">
+                            {Climatic}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-isofix" type="checkbox" class="custom-control-input"
+                               th:field="*{isofixSystem}">
+                        <label class="custom-control-label" for="check-isofix" th:text="#{check_isofix}">
+                            {ISOFIX system}</label>
+                    </div>
+                </div>
+
+                <div id="additional-check-col-3" class="d-inline-block ml-3">
+
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-parktronic" type="checkbox" class="custom-control-input"
+                               th:field="*{parktronic}">
+                        <label class="custom-control-label" for="check-parktronic" th:text="#{check_parktronic}">
+                            {Parktronic}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-anti-block" type="checkbox" class="custom-control-input"
+                               th:field="*{antiBlockingSystem}">
+                        <label class="custom-control-label" for="check-anti-block" th:text="#{check_anti_block}">
+                            {Anti-blocking system}</label>
+                    </div>
+                </div>
+
+                <div id="additional-check-col-4" class="d-inline-block ml-3">
+
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-navi" type="checkbox" class="custom-control-input"
+                               th:field="*{navi}">
+                        <label class="custom-control-label" for="check-navi" th:text="#{check_navi}">
+                            {Navigation}</label>
+                    </div>
+
+                    <div class="custom-control form-control-lg custom-checkbox additional-check-box">
+                        <input id="check-cabriolet" type="checkbox" class="custom-control-input"
+                               th:field="*{cabriolet}">
+                        <label class="custom-control-label" for="check-cabriolet" th:text="#{check_cabriolet}">
+                            {Cabriolet}</label>
+                    </div>
+                </div>
+                <div id="additional-check-col-5" class="d-inline-block ml-3">
+
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-leasing" type="checkbox" class="custom-control-input"
                                th:field="*{leasing}">
@@ -224,6 +240,7 @@
                             {Bluetooth/handsfree}</label>
                     </div>
                 </div>
+
             </div>
 
             <div class="d-flex justify-content-between mt-4">
@@ -420,11 +437,13 @@
 
         </div>
     </div>
+
+
+    <footer th:replace="~{fragments/commons::footer}"></footer>
+
+
 </div>
 
-<div>
-    <footer th:replace="~{fragments/commons::footer}"></footer>
-</div>
 
 <script src="/js/advanced-search-toggle.js"></script>
 
