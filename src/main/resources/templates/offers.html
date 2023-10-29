@@ -57,8 +57,7 @@
                             <option value="" th:text="#{offers_engine_type}">{- Select engine -}</option>
                             <option th:each="e : ${T(com.soft.mobilele.model.enumarated.EngineEnum).values()}"
                                     th:text="${e}"
-                                    th:value="${e}"
-                                    th:selected="${e} == *{engineType}">
+                                    th:value="${e}">
                                 {Engine type}
                             </option>
                         </select>
@@ -73,8 +72,7 @@
                             </option>
                             <option th:each="t : ${T(com.soft.mobilele.model.enumarated.TransmissionEnum).values()}"
                                     th:text="${t}"
-                                    th:value="${t}"
-                                    th:selected="${t} == *{transmissionType}">
+                                    th:value="${t}">
                                 {Transmission type}
                             </option>
                         </select>
@@ -157,7 +155,7 @@
                 </div>
             </div>
 
-<!--            Additional search menu: checkboxes-->
+            <!--            Additional search menu: checkboxes-->
             <div>
                 <div id="additional-check-col-1" class="d-inline-block">
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
@@ -258,8 +256,7 @@
                         <option value="" th:text="#{search_per_page}">{- Sort by -}</option>
                         <option th:each="s : ${T(com.soft.mobilele.model.enumarated.PerPage).values()}"
                                 th:text="${s.getSz()}"
-                                th:value="${s}"
-                                th:selected="${s} == *{perPage}">
+                                th:value="${s}">
                             {Vehicles per page}
                         </option>
                     </select>
@@ -279,8 +276,7 @@
                         <option value="" th:text="#{search_sort_type}">{- ASC/DESC -}</option>
                         <option th:each="s : ${T(com.soft.mobilele.model.enumarated.SortDirection).values()}"
                                 th:text="${s}"
-                                th:value="${s}"
-                                th:selected="${s} == *{sortDirection}">
+                                th:value="${s}">
                             {Sort by criteria}
                         </option>
                     </select>
@@ -292,8 +288,7 @@
                         <option value="" th:text="#{search_sort_by}">{- Sort by -}</option>
                         <option th:each="s : ${T(com.soft.mobilele.model.enumarated.SortBy).values()}"
                                 th:text="${s.getDisplayName()}"
-                                th:value="${s}"
-                                th:selected="${s} == *{sortBy}">
+                                th:value="${s}">
                             {Sort by criteria}
                         </option>
                     </select>

@@ -30,8 +30,7 @@
                               label="" th:label="${brand.name}">
                         <option th:each="model : ${brand.models}"
                                 th:text="${model.name}"
-                                th:value="${model.id}"
-                                th:selected="${model.id} == *{modelId}">
+                                th:value="${model.id}">
                             {Model}
                         </option>
                     </optgroup>
@@ -67,8 +66,7 @@
                     <option value="" th:text="#{offer_upload_engine_place}">{- Select engine type -}</option>
                     <option th:each="e : ${T(com.soft.mobilele.model.enumarated.EngineEnum).values()}"
                             th:text="${e}"
-                            th:value="${e}"
-                            th:selected="${e} == *{engineType}">
+                            th:value="${e}">
                         {Engine type}
                     </option>
                 </select>
@@ -88,8 +86,7 @@
                     </option>
                     <option th:each="t : ${T(com.soft.mobilele.model.enumarated.TransmissionEnum).values()}"
                             th:text="${t.getFullName()}"
-                            th:value="${t}"
-                            th:selected="${t} == *{transmissionType}">
+                            th:value="${t}">
                         {Transmission type}
                     </option>
                 </select>
