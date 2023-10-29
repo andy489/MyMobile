@@ -22,8 +22,8 @@ spring:
   flyway:
     enabled: true
     schemas: mobilele
-    user: root
-    password: root
+    user: ${MYSQL_USER:root}
+    password: ${MYSQL_PASS:root}
     locations: classpath:db.migration
     baseline-on-migrate: true
 
