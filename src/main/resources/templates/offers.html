@@ -15,10 +15,11 @@
         <h2 class="text-center text-white" th:text="#{offers_filter}">{Filter}</h2>
     </div>
 
-    <form th:action="@{/offers}"
-          th:method="get"
-          th:object="${offerSearchModel}"
-          class="form-inline justify-content-center">
+    <form id="offer-search-form"
+          class="form-inline justify-content-center"
+          th:object="${offerSearchModel}">
+        <!--th:action="@{/offers}"-->
+        <!--th:method="get"-->
 
         <div class="border border-secondary p-3 rounded bg-light">
             <div class="d-inline-block">
@@ -45,8 +46,7 @@
 
             <div class="d-inline-block ml-1">
                 <label for="engine-trans" class="col-form-label text-primary font-weight-bold"
-                       th:text="#{o_engine_and_trans_l}">{Engine and
-                    Transmission}
+                       th:text="#{o_engine_and_trans_l}">{Engine and Transmission}
                 </label>
                 <div id="engine-trans">
                     <div>
@@ -155,19 +155,19 @@
                 </div>
             </div>
 
-            <!--            Additional search menu: checkboxes-->
+            <!--Additional search menu: checkboxes-->
             <div>
                 <div id="additional-check-col-1" class="d-inline-block">
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-awd" type="checkbox" class="custom-control-input"
-                               th:field="*{awd}">
+                        <input id="check-awd" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{awd}"/>
                         <label class="custom-control-label" for="check-awd" th:text="#{check_awd}">
                             {4x4 All-wheel drive}</label>
                     </div>
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-xenon" type="checkbox" class="custom-control-input"
-                               th:field="*{xenonLights}">
+                        <input id="check-xenon" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{xenonLights}"/>
                         <label class="custom-control-label" for="check-xenon" th:text="#{check_xenon}">
                             {Xenon lights}</label>
                     </div>
@@ -175,15 +175,15 @@
 
                 <div id="additional-check-col-2" class="d-inline-block ml-1">
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-climatic" type="checkbox" class="custom-control-input"
-                               th:field="*{climatic}">
+                        <input id="check-climatic" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{climatic}"/>
                         <label class="custom-control-label" for="check-climatic" th:text="#{check_climatic}">
                             {Climatic}</label>
                     </div>
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-isofix" type="checkbox" class="custom-control-input"
-                               th:field="*{isofixSystem}">
+                        <input id="check-isofix" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{isofixSystem}"/>
                         <label class="custom-control-label" for="check-isofix" th:text="#{check_isofix}">
                             {ISOFIX system}</label>
                     </div>
@@ -192,15 +192,15 @@
                 <div id="additional-check-col-3" class="d-inline-block ml-3">
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-parktronic" type="checkbox" class="custom-control-input"
-                               th:field="*{parktronic}">
+                        <input id="check-parktronic" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{parktronic}"/>
                         <label class="custom-control-label" for="check-parktronic" th:text="#{check_parktronic}">
                             {Parktronic}</label>
                     </div>
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-anti-block" type="checkbox" class="custom-control-input"
-                               th:field="*{antiBlockingSystem}">
+                        <input id="check-anti-block" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{antiBlockingSystem}"/>
                         <label class="custom-control-label" for="check-anti-block" th:text="#{check_anti_block}">
                             {Anti-blocking system}</label>
                     </div>
@@ -209,15 +209,15 @@
                 <div id="additional-check-col-4" class="d-inline-block ml-3">
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-navi" type="checkbox" class="custom-control-input"
-                               th:field="*{navi}">
+                        <input id="check-navi" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{navi}"/>
                         <label class="custom-control-label" for="check-navi" th:text="#{check_navi}">
                             {Navigation}</label>
                     </div>
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-cabriolet" type="checkbox" class="custom-control-input"
-                               th:field="*{cabriolet}">
+                        <input id="check-cabriolet" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{cabriolet}"/>
                         <label class="custom-control-label" for="check-cabriolet" th:text="#{check_cabriolet}">
                             {Cabriolet}</label>
                     </div>
@@ -225,15 +225,15 @@
                 <div id="additional-check-col-5" class="d-inline-block ml-3">
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-leasing" type="checkbox" class="custom-control-input"
-                               th:field="*{leasing}">
+                        <input id="check-leasing" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{leasing}"/>
                         <label class="custom-control-label" for="check-leasing" th:text="#{check_leasing}">
                             {Leasing}</label>
                     </div>
 
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
-                        <input id="check-bluetooth" type="checkbox" class="custom-control-input"
-                               th:field="*{bluetooth}">
+                        <input id="check-bluetooth" type="checkbox" class="custom-control-input form-control"
+                               th:field="*{bluetooth}"/>
                         <label class="custom-control-label" for="check-bluetooth" th:text="#{check_bluetooth}">
                             {Bluetooth/handsfree}</label>
                     </div>
@@ -246,27 +246,28 @@
 
                     <button id="advanced-search"
                             class="btn btn-outline-secondary"
-                            type="submit" th:text="#{search_advances_btn}">{Advanced Search}
+                            type="button" th:text="#{search_advances_btn}">{Advanced Search}
                     </button>
 
                     <select id="items-per-page"
-                            th:field="*{perPage}"
+                            th:field="*{size}"
                             th:errorclass="is-invalid"
                             class="form-control btn-secondary ml-2">
                         <option value="" th:text="#{search_per_page}">{- Sort by -}</option>
                         <option th:each="s : ${T(com.soft.mobilele.model.enumarated.PerPage).values()}"
                                 th:text="${s.getSz()}"
-                                th:value="${s}">
+                                th:value="${s.getSz()}">
                             {Vehicles per page}
                         </option>
                     </select>
 
                 </div>
-                <button id="search-btn"
-                        class="btn btn-outline-primary font-weight-bold w-25 ml-5 mr-5"
-                        type="submit" th:text="#{offers_search_btn}">
+                <a th:onclick="filterOffers(this)"
+                   id="search-btn"
+                   class="btn btn-outline-primary font-weight-bold w-25 ml-5 mr-5"
+                   type="button" th:text="#{offers_search_btn}">
                     {Search}
-                </button>
+                </a>
                 <div>
 
                     <select id="sort-type"
@@ -317,8 +318,9 @@
                        th:text="#{offers_page_first}">{First}</a>
 
                     <a th:unless="*{isFirst()}" class="page-link"
-                       th:href="@{/offers(size = *{getSize()},page=0)}"
+                       th:onclick="gotoPage(this, 0)"
                        th:text="#{offers_page_first}">{First}</a>
+                    <!--th:href="@{/offers(size = *{getSize()},page=0)}"-->
 
                 </li>
             </ul>
@@ -328,8 +330,9 @@
                 <li class="page-item" th:classappend="*{hasPrevious() ? '' : 'disabled'}">
 
                     <a th:if="*{hasPrevious()}" class="page-link"
-                       th:href="@{/offers(size = *{getSize()},page=*{getNumber() - 1})}"
+                       th:onclick="|gotoPage(this, '*{getNumber() - 1}')|"
                        th:text="#{offers_page_prev}">{Previous}</a>
+                    <!--th:href="@{/offers(size = *{getSize()},page=*{getNumber() - 1})}"-->
 
                     <a th:unless="*{hasPrevious()}"
                        class="page-link" href="#"
@@ -343,8 +346,9 @@
                 <li class="page-item" th:classappend="*{hasNext() ? '' : 'disabled'}">
 
                     <a th:if="*{hasNext()}" class="page-link"
-                       th:href="@{/offers(size = *{getSize()},page=*{getNumber() + 1})}"
+                       th:onclick="|gotoPage(this, '*{getNumber() + 1}')|"
                        th:text="#{offers_page_next}">{Next}</a>
+                    <!--th:href="@{/offers(size = *{getSize()},page=*{getNumber() + 1})}"-->
 
                     <a th:unless="*{hasNext()}"
                        class="page-link" href="#"
@@ -362,8 +366,9 @@
                        th:text="#{offers_page_last}">{Last}</a>
 
                     <a th:unless="*{isLast()}" class="page-link"
-                       th:href="@{/offers(size = *{getSize()},page=*{getTotalPages() - 1})}"
+                       th:onclick="gotoPage(this, [[*{getTotalPages() - 1}]])"
                        th:text="#{offers_page_last}">{Last}</a>
+                    <!--th:href="@{/offers(size = *{getSize()},page=*{getTotalPages() - 1})}"-->
 
                 </li>
             </ul>
@@ -383,7 +388,7 @@
              th:each="currOffer : ${offersSearch.getContent()}"
              th:object="${currOffer}">
             <div class="card-img-top-wrapper">
-                <img class="card-img-top" th:src="@{*{imageUrl}}" alt="Car image">
+                <img class="card-img-top" th:src="@{*{imageUrl}}" alt="Car image" src=""/>
             </div>
 
             <div class="card-body pb-1">
@@ -433,14 +438,13 @@
         </div>
     </div>
 
-
     <footer th:replace="~{fragments/commons::footer}"></footer>
-
 
 </div>
 
 
 <script src="/js/advanced-search-toggle.js"></script>
+<script src="/js/offer-search.js"></script>
 
 </body>
 </html>

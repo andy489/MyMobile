@@ -64,8 +64,8 @@ public class OfferService {
 
     public Page<OfferDetailsView> getOffers(OfferSearchDTO offerSearchDto, Pageable pageRequest) {
 
-        int pageSize = offerSearchDto.getPerPage() == null ?
-                pageRequest.getPageSize() : offerSearchDto.getPerPage().getSz();
+        int pageSize = offerSearchDto.getSize() == null ?
+                pageRequest.getPageSize() : offerSearchDto.getSize();
 
         Sort.Direction sortDirection = offerSearchDto.getSortDirection() == null ?
                 Objects.requireNonNull(pageRequest.getSort().getOrderFor("price")).getDirection() :

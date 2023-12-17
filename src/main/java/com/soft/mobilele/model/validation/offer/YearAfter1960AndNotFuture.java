@@ -1,6 +1,5 @@
 package com.soft.mobilele.model.validation.offer;
 
-
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

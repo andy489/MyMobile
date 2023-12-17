@@ -95,6 +95,18 @@ hr {
     background-color: black;
 }
 
-.shrinkable{
+.shrinkable {
     overflow: hidden;
+}
+
+#search-btn {
+    color: #007bff;
+}
+
+.page-item {
+    color: #007bff;
+}
+
+#search-btn:hover {
+    color: white;
 }

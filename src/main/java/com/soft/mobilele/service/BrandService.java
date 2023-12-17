@@ -27,7 +27,11 @@ public class BrandService {
     }
 
     public List<BrandDTO> getAllBrands() {
-        return brandRepository.findAll().stream().map(mapper::toDto).toList();
+
+        // return brandRepository.findAll().stream().map(mapper::toDto).toList();
+
+        // solving n + 1 queries problem
+        return brandRepository.getAllBrands().stream().map(mapper::toDto).toList();
     }
 
     public BrandEntity getById(Long brandId) {

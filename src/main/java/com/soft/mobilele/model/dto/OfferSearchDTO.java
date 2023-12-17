@@ -62,7 +62,7 @@ public class OfferSearchDTO {
 
     // Pageable
 
-    private PerPage perPage;
+    private Integer size;
 
     // Sort
 
