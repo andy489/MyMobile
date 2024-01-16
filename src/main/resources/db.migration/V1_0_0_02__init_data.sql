@@ -1,20 +1,20 @@
 INSERT INTO users(id, username, first_name, last_name, email, image_url, is_active, password)
 VALUES (1, 'admin', 'Admin', 'Adminov', 'admin@gmail.com', null, true,
-        '$2a$10$WT81avR7VkFwU41g6jtWFOB0GhPqncCijxAHufjN1nQA7G8krh.pS'),
+        '$2a$10$FVRAfH2Tn4IXHhiTkuuahuMJtq8rPfgeU51EB.xbphRWn1BYsm4uy'),
        (2, 'moderator', 'Moderator', 'Moderatov', 'moderator@gmail.com', null, true,
-        '$2a$10$oZix.cFqVIcI58MkfkbyAOBNX4.YpEcZMnoualTDmX1/VHvlX9nVG'),
+        '$2a$10$lvaoHVZy.i7Pctpkr6hri.eYu.Z6eCFzoSqsidJVI4SdT2qzHns3e'),
        (3, 'user', 'User', 'Userov', 'user@gmail.com', null, true,
-        '$2a$10$r/rrbGAiItedW7I90oNF2O.Y0XChUQRkDA.He7JaEXWYosPSh4tom'),
+        '$2a$10$D/mQLMhnwiosaWTTdsy7jeDxZ9dYynss3AG3kkEaNp/quJqSQ7Hci'),
        (4, 'andy489', 'Andrey', 'Stoev', 'stoev.andy@gmail.com', null, true,
-        '$2a$10$wucq9UuS.SqYIIbwE6BQFeYx.XVcAS33cQbLVrPlv0sxBWYS6rb9W'),
+        '$2a$10$3jeS7YPhTXpdOyjO3t0Pru8wjLk5PfRwvBbnOcRCT47xzZ8XDx1na'),
        (5, 'pesho', 'Pesho', 'Peshev', 'pesho@gmail.com', null, true,
-        '$2a$10$TwALOx3iq4q48IN.G/E2LOQgVKtPVw3sSjzIzhBLn4Uok9C98yy/q'),
+        '$2a$10$u9/o7CsSQ4z8/8HW/mwXNOM.2Y3xBPPfzbA96syXuAetcScbwK5Re'),
        (6, 'ivan', 'Ivan', 'Ivanov', 'ivan@gmail.com', null, true,
-        '$2a$10$I9Qod24wgHA//Qx4aJh.3u4xk/gnXNm9/eXGEMUhASF1Mzat3g8e6'),
+        '$2a$10$WSOR19L2R1zui3xF6dUQoOZojr0nE0XyXc4zz2RcuAsvRdrt3R71G'),
        (7, 'asd', 'asd', 'asd', 'asd@asd', null, true,
-        '$2a$10$CIP7HVpW7bhJA1hMj1C4ceJax5/34nq/VWZFzWaDPipJWwTqRkX4.');
+        '$2a$10$lDt/SqmXcbWtXV.7RxH0EuKDJFNaHe8Ou9Y.102FkjY/Q4coWccPi');
 
-INSERT INTO users_user_roles(user_entity_id, user_roles_id)
+INSERT INTO users_roles(user_id, role_id)
 VALUES (1, 1),
        (1, 3),
        (2, 2),

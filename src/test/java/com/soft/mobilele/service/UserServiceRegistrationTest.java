@@ -1,7 +1,7 @@
 package com.soft.mobilele.service;
 
 import com.soft.mobilele.mapper.MapStructMapper;
-import com.soft.mobilele.model.dto.UserRegistrationDTO;
+import com.soft.mobilele.model.dto.UserRegistrationDto;
 import com.soft.mobilele.model.entity.UserEntity;
 import com.soft.mobilele.model.entity.UserRoleEntity;
 import com.soft.mobilele.model.enumarated.UserRoleEnum;
@@ -99,7 +99,7 @@ public class UserServiceRegistrationTest {
     @Test
     void testUserRegistration_SaveInvoked_v1() {
         // arrange
-        UserRegistrationDTO testUserRegistrationDTO = new UserRegistrationDTO()
+        UserRegistrationDto testUserRegistrationDto = new UserRegistrationDto()
                 .setUsername(testUsername)
                 .setEmail(testEmail)
                 .setFirstName(testFirstName)
@@ -108,10 +108,10 @@ public class UserServiceRegistrationTest {
                 .setConfirmPassword(testConfirmPassword);
 
         UserEntity testUserEntity = new UserEntity()
-                .setUsername(testUserRegistrationDTO.getUsername())
-                .setEmail(testUserRegistrationDTO.getEmail())
-                .setFirstName(testUserRegistrationDTO.getFirstName())
-                .setLastName(testUserRegistrationDTO.getLastName())
+                .setUsername(testUserRegistrationDto.getUsername())
+                .setEmail(testUserRegistrationDto.getEmail())
+                .setFirstName(testUserRegistrationDto.getFirstName())
+                .setLastName(testUserRegistrationDto.getLastName())
                 .setImageUrl(testImageUrl);
 
         UserRoleEntity testUserRoleEntity = new UserRoleEntity()
@@ -128,7 +128,7 @@ public class UserServiceRegistrationTest {
                 .setUserRoles(List.of(testUserRoleEntity))
                 .setId(testUserEntityId);
 
-        final String ENCODED_PASS = "ENCODED" + testUserRegistrationDTO.getPassword() + "ENCODED";
+        final String ENCODED_PASS = "ENCODED" + testUserRegistrationDto.getPassword() + "ENCODED";
 
         MobileleUserDetails testUserDetails = new MobileleUserDetails()
                 .setUsername(testReturnedUserEntity.getUsername())
@@ -145,10 +145,10 @@ public class UserServiceRegistrationTest {
         Consumer<Authentication> dummyAuthenticationConsumerStub = (a) -> {
         };
 
-        when(mockMapper.toEntity(testUserRegistrationDTO))
+        when(mockMapper.toEntity(testUserRegistrationDto))
                 .thenReturn(testUserEntity);
 
-        when(mockPasswordEncoder.encode(testUserRegistrationDTO.getPassword()))
+        when(mockPasswordEncoder.encode(testUserRegistrationDto.getPassword()))
                 .thenReturn(ENCODED_PASS);
 
         when(mockUserRoleService.getByUserRoleEnum(UserRoleEnum.USER))
@@ -164,7 +164,7 @@ public class UserServiceRegistrationTest {
 
         // act
         toTest.registerAndLogin(
-                testUserRegistrationDTO,
+                testUserRegistrationDto,
                 mockLocaleResolver,
                 dummyAuthenticationConsumerStub
         );
@@ -178,7 +178,7 @@ public class UserServiceRegistrationTest {
     @Test
     void testUserRegistration_SaveInvoked_v2_ArgumentCaptor() {
         // arrange
-        UserRegistrationDTO testUserRegistrationDTO = new UserRegistrationDTO()
+        UserRegistrationDto testUserRegistrationDto = new UserRegistrationDto()
                 .setUsername(testUsername)
                 .setEmail(testEmail)
                 .setFirstName(testFirstName)
@@ -187,17 +187,17 @@ public class UserServiceRegistrationTest {
                 .setConfirmPassword(testConfirmPassword);
 
         UserEntity testUserEntity = new UserEntity()
-                .setUsername(testUserRegistrationDTO.getUsername())
-                .setEmail(testUserRegistrationDTO.getEmail())
-                .setFirstName(testUserRegistrationDTO.getFirstName())
-                .setLastName(testUserRegistrationDTO.getLastName())
+                .setUsername(testUserRegistrationDto.getUsername())
+                .setEmail(testUserRegistrationDto.getEmail())
+                .setFirstName(testUserRegistrationDto.getFirstName())
+                .setLastName(testUserRegistrationDto.getLastName())
                 .setImageUrl(testImageUrl);
 
         UserRoleEntity testUserRoleEntity = new UserRoleEntity()
                 .setId(3L)
                 .setUserRoleEnum(UserRoleEnum.USER);
 
-        final String ENCODED_PASS = "ENCODED" + testUserRegistrationDTO.getPassword() + "ENCODED";
+        final String ENCODED_PASS = "ENCODED" + testUserRegistrationDto.getPassword() + "ENCODED";
 
         UserEntity testReturnedUserEntity = new UserEntity()
                 .setUsername(testUserEntity.getUsername())
@@ -225,10 +225,10 @@ public class UserServiceRegistrationTest {
         Consumer<Authentication> dummyAuthenticationConsumerStub = (a) -> {
         };
 
-        when(mockMapper.toEntity(testUserRegistrationDTO))
+        when(mockMapper.toEntity(testUserRegistrationDto))
                 .thenReturn(testUserEntity);
 
-        when(mockPasswordEncoder.encode(testUserRegistrationDTO.getPassword()))
+        when(mockPasswordEncoder.encode(testUserRegistrationDto.getPassword()))
                 .thenReturn(ENCODED_PASS);
 
         when(mockUserRoleService.getByUserRoleEnum(UserRoleEnum.USER))
@@ -244,7 +244,7 @@ public class UserServiceRegistrationTest {
 
         // act
         toTest.registerAndLogin(
-                testUserRegistrationDTO,
+                testUserRegistrationDto,
                 mockLocaleResolver,
                 dummyAuthenticationConsumerStub
         );

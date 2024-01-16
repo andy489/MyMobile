@@ -39,14 +39,14 @@ CREATE TABLE `user_roles`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-CREATE TABLE `users_user_roles`
+CREATE TABLE `users_roles`
 (
-    `user_entity_id` bigint NOT NULL,
-    `user_roles_id`  bigint NOT NULL,
-    KEY `FKdwlsjl9336fne9vntsddpf6xs` (`user_roles_id`),
-    KEY `FKmch2wehr2qllj0ub9y4anjs9i` (`user_entity_id`),
-    CONSTRAINT `FKdwlsjl9336fne9vntsddpf6xs` FOREIGN KEY (`user_roles_id`) REFERENCES `user_roles` (`id`),
-    CONSTRAINT `FKmch2wehr2qllj0ub9y4anjs9i` FOREIGN KEY (`user_entity_id`) REFERENCES `users` (`id`)
+    `user_id` bigint NOT NULL,
+    `role_id`  bigint NOT NULL,
+    KEY `FKdwlsjl9336fne9vntsddpf6xs` (`role_id`),
+    KEY `FKmch2wehr2qllj0ub9y4anjs9i` (`user_id`),
+    CONSTRAINT `FKdwlsjl9336fne9vntsddpf6xs` FOREIGN KEY (`role_id`) REFERENCES `user_roles` (`id`),
+    CONSTRAINT `FKmch2wehr2qllj0ub9y4anjs9i` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -108,3 +108,12 @@ CREATE TABLE `offers`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
+CREATE TABLE `exchange_rates`
+(
+    `currency` varchar(255)   NOT NULL,
+    `rate`     decimal(38, 2) NOT NULL,
+    PRIMARY KEY (`currency`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci

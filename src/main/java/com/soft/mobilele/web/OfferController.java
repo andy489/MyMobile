@@ -1,7 +1,7 @@
 package com.soft.mobilele.web;
 
-import com.soft.mobilele.model.dto.OfferAddDTO;
-import com.soft.mobilele.model.dto.OfferSearchDTO;
+import com.soft.mobilele.model.dto.OfferAddDto;
+import com.soft.mobilele.model.dto.OfferSearchDto;
 import com.soft.mobilele.model.user.MobileleUserDetails;
 import com.soft.mobilele.service.BrandService;
 import com.soft.mobilele.service.OfferService;
@@ -37,8 +37,8 @@ public class OfferController extends GenericController {
     }
 
     @ModelAttribute(name = "offerAddModel")
-    public OfferAddDTO initRouteAddDto() {
-        return new OfferAddDTO();
+    public OfferAddDto initRouteAddDto() {
+        return new OfferAddDto();
     }
 
     @GetMapping("/add")
@@ -51,7 +51,7 @@ public class OfferController extends GenericController {
 
     @PostMapping("/add")
     public ModelAndView addOffer(
-            @Valid @ModelAttribute(name = "offerAddModel") OfferAddDTO offerAddDTO,
+            @Valid @ModelAttribute(name = "offerAddModel") OfferAddDto offerAddDTO,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             @AuthenticationPrincipal MobileleUserDetails userDetails
@@ -70,7 +70,7 @@ public class OfferController extends GenericController {
 
     @GetMapping
     public ModelAndView allOffers(
-            @Valid @ModelAttribute(name = "offerSearchModel") OfferSearchDTO offerSearchDTO,
+            @Valid @ModelAttribute(name = "offerSearchModel") OfferSearchDto offerSearchDTO,
             BindingResult bindingResult,
             ModelAndView modelAndView,
             @PageableDefault(page = 0, size = 10, sort = "price", direction = Sort.Direction.ASC) Pageable pageRequest

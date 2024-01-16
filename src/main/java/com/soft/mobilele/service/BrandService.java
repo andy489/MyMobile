@@ -1,7 +1,7 @@
 package com.soft.mobilele.service;
 
 import com.soft.mobilele.mapper.MapStructMapper;
-import com.soft.mobilele.model.dto.BrandDTO;
+import com.soft.mobilele.model.dto.BrandDto;
 import com.soft.mobilele.model.entity.BrandEntity;
 import com.soft.mobilele.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class BrandService {
         this.mapper = mapper;
     }
 
-    public List<BrandDTO> getAllBrands() {
+    public List<BrandDto> getAllBrands() {
 
         // return brandRepository.findAll().stream().map(mapper::toDto).toList();
 

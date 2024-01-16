@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
         secondField = "confirmPassword",
         message = "passwords do not match"
 )
-public class UserRegistrationDTO {
+public class UserRegistrationDto {
 
     @NotBlank(message = "username should be provided and not blank")
     @Size(min = 2, max = 20, message = "provided username must be between 2 and 20 characters long")

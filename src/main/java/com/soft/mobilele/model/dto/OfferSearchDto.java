@@ -1,7 +1,6 @@
 package com.soft.mobilele.model.dto;
 
 import com.soft.mobilele.model.enumarated.EngineEnum;
-import com.soft.mobilele.model.enumarated.PerPage;
 import com.soft.mobilele.model.enumarated.SortBy;
 import com.soft.mobilele.model.enumarated.TransmissionEnum;
 import lombok.Getter;
@@ -16,7 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @Accessors(chain = true)
 @ToString
-public class OfferSearchDTO {
+public class OfferSearchDto {
 
     private String model;
 

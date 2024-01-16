@@ -32,6 +32,7 @@ spring:
 #    org.springframework: DEBUG
 #    org.hibernate.SQL: DEBUG
 #    org.hibernate.orm.jdbc.bind: TRACE
+#    org.springframework.security: TRACE
 
 mail:
   host: "localhost"
@@ -40,5 +41,14 @@ mail:
   password: ""
 
 mobilele:
-  admin:
-    defaultpass: ${DEFAULT_PASS:test}
+  remember.me.key: ${REMEMBER_ME_KEY:topsecret}
+
+
+open.exchange.rates:
+  schema: https
+  host: openexchangerates.org
+  path: /api/latest.json
+  app_id: ${APP_ID:123}
+  symbols: BGN,EUR,GBP
+  decimal-precision: 3
+  enabled: true

@@ -1,18 +1,22 @@
 package com.soft.mobilele.model.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
 @Getter
 @Setter
 @Accessors(chain = true)
 @ToString
-public class ModelDTO {
+public class ExchangeRatesDto {
 
-    private Long id;
+    private String base;
 
-    private String name;
+    private Map<String, BigDecimal> rates;
 
 }

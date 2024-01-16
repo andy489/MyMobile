@@ -1,6 +1,6 @@
 package com.soft.mobilele.repository;
 
-import com.soft.mobilele.model.dto.OfferSearchDTO;
+import com.soft.mobilele.model.dto.OfferSearchDto;
 import com.soft.mobilele.model.entity.OfferEntity;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -13,9 +13,9 @@ import java.util.List;
 
 public class OfferSpecification implements Specification<OfferEntity> {
 
-    private final OfferSearchDTO offerSearchDto;
+    private final OfferSearchDto offerSearchDto;
 
-    public OfferSpecification(OfferSearchDTO offerSearchDto) {
+    public OfferSpecification(OfferSearchDto offerSearchDto) {
         this.offerSearchDto = offerSearchDto;
     }
 

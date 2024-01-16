@@ -18,12 +18,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "brands")
-
 @NamedEntityGraph(
         name = "brandWithModels",
         attributeNodes = @NamedAttributeNode("models")
 )
-
 @Getter
 @Setter
 @Accessors(chain = true)

@@ -1,8 +1,8 @@
 package com.soft.mobilele.service;
 
 import com.soft.mobilele.mapper.MapStructMapper;
-import com.soft.mobilele.model.dto.OfferAddDTO;
-import com.soft.mobilele.model.dto.OfferSearchDTO;
+import com.soft.mobilele.model.dto.OfferAddDto;
+import com.soft.mobilele.model.dto.OfferSearchDto;
 import com.soft.mobilele.model.entity.ModelEntity;
 import com.soft.mobilele.model.entity.OfferEntity;
 import com.soft.mobilele.model.entity.UserEntity;
@@ -47,7 +47,7 @@ public class OfferService {
         this.brandService = brandService;
     }
 
-    public void addOffer(OfferAddDTO offerAddDto, String email) {
+    public void addOffer(OfferAddDto offerAddDto, String email) {
 
         OfferEntity offerEntity = mapper.toEntity(offerAddDto);
 
@@ -62,7 +62,7 @@ public class OfferService {
         offerRepository.save(offerEntity);
     }
 
-    public Page<OfferDetailsView> getOffers(OfferSearchDTO offerSearchDto, Pageable pageRequest) {
+    public Page<OfferDetailsView> getOffers(OfferSearchDto offerSearchDto, Pageable pageRequest) {
 
         int pageSize = offerSearchDto.getSize() == null ?
                 pageRequest.getPageSize() : offerSearchDto.getSize();

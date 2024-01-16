@@ -1,8 +1,8 @@
 package com.soft.mobilele.mapper;
 
-import com.soft.mobilele.model.dto.BrandDTO;
-import com.soft.mobilele.model.dto.OfferAddDTO;
-import com.soft.mobilele.model.dto.UserRegistrationDTO;
+import com.soft.mobilele.model.dto.BrandDto;
+import com.soft.mobilele.model.dto.OfferAddDto;
+import com.soft.mobilele.model.dto.UserRegistrationDto;
 import com.soft.mobilele.model.entity.BrandEntity;
 import com.soft.mobilele.model.entity.OfferEntity;
 import com.soft.mobilele.model.entity.UserEntity;
@@ -21,9 +21,9 @@ public interface MapStructMapper {
     @Mapping(target = "imageUrl", ignore = true)
     @Mapping(target = "userRoles", ignore = true)
     @Mapping(target = "id", ignore = true)
-    UserEntity toEntity(UserRegistrationDTO userRegisterDto);
+    UserEntity toEntity(UserRegistrationDto userRegisterDto);
 
-    BrandDTO toDto(BrandEntity brandEntity);
+    BrandDto toDto(BrandEntity brandEntity);
 
     @Mapping(source = "engineType", target = "engine")
     @Mapping(source = "transmissionType", target = "transmission")
@@ -32,7 +32,7 @@ public interface MapStructMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "created", ignore = true)
     @Mapping(target = "modified", ignore = true)
-    OfferEntity toEntity(OfferAddDTO offerAddDto);
+    OfferEntity toEntity(OfferAddDto offerAddDto);
 
     @Mapping(target = "engineType", expression = "java( offerEntity.getEngine().getDisplayName() )")
     @Mapping(target = "transmissionType", expression = "java( offerEntity.getTransmission().getDisplayName() )")

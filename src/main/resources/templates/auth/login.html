@@ -43,6 +43,14 @@
             {Invalid username and password combination.}
         </p>
 
+        <div class="custom-control form-control-lg custom-checkbox mb-3">
+            <input id="remember-me" type="checkbox" class="custom-control-input form-control"
+                   name="remember-me-par"/>
+            <label class="custom-control-label text-white" for="remember-me" th:text="#{login_remember_me}">
+                {Remember me}
+            </label>
+        </div>
+
         <div class="w-100 button-holder d-flex ">
             <input type="submit"
                    class="w-100 btn btn-info btn-lg"

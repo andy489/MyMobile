@@ -1,6 +1,6 @@
 package com.soft.mobilele.web;
 
-import com.soft.mobilele.model.dto.UserRegistrationDTO;
+import com.soft.mobilele.model.dto.UserRegistrationDto;
 import com.soft.mobilele.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,9 +42,9 @@ public class UserRegistrationController extends GenericController {
     }
 
     @ModelAttribute("userRegistrationModel")
-    public UserRegistrationDTO initUserRegistrationModel() {
+    public UserRegistrationDto initUserRegistrationModel() {
 
-        return new UserRegistrationDTO();
+        return new UserRegistrationDto();
     }
 
     @GetMapping("/register")
@@ -55,7 +55,7 @@ public class UserRegistrationController extends GenericController {
 
     @PostMapping("/register")
     public ModelAndView register(
-            @Valid UserRegistrationDTO userRegistrationDTO,
+            @Valid UserRegistrationDto userRegistrationDTO,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             HttpServletRequest request,

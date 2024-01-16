@@ -3,6 +3,8 @@ package com.soft.mobilele.model.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -36,6 +38,11 @@ public class UserEntity extends GenericEntity {
     private String imageUrl;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="users_roles",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id")
+    )
     private List<UserRoleEntity> userRoles = new ArrayList<>();
 
     public UserEntity addRole(UserRoleEntity userRole) {

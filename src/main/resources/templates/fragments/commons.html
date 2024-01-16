@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/reset-css.css}"/>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
-    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}"/>
     <script src="/js/jquery-3.5.1.slim.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 </head>
@@ -51,6 +51,8 @@
                         {Admin}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbar-drop-down">
+                        <a class="dropdown-item" th:href="@{/brands/all}"
+                           th:text="#{navbar_add_brand}">{Add brand}</a>
                         <a class="dropdown-item" th:href="@{/}"
                            th:text="#{navbar_action}">{Action}</a>
                         <a class="dropdown-item" th:href="@{/}"

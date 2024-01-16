@@ -4,6 +4,7 @@ import com.soft.mobilele.mapper.MapStructMapper;
 import com.soft.mobilele.model.enumarated.UserRoleEnum;
 import com.soft.mobilele.repository.UserRepository;
 import com.soft.mobilele.service.MobileleUserDetailsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 //import org.springframework.security.web.context.DelegatingSecurityContextRepository;
@@ -22,6 +24,12 @@ import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
 public class SecurityConfiguration {
+
+    private final String rememberMeKey;
+
+    public SecurityConfiguration(@Value("${mobilele.remember.me.key}") String rememberMeKey) {
+        this.rememberMeKey = rememberMeKey;
+    }
 
     @Bean
     public PasswordEncoder encode() {
@@ -39,6 +47,7 @@ public class SecurityConfiguration {
 
 
 //        return NoOpPasswordEncoder.getInstance();
+//        return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         return new BCryptPasswordEncoder();
     }
 
@@ -48,16 +57,16 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        return http // .csrf(AbstractHttpConfigurer::disable)
+        return httpSecurity // .csrf(AbstractHttpConfigurer::disable)
                 // defines which pages will be authorized
                 .authorizeHttpRequests((auth) -> {
                     auth
                             // allow access to all static locations defined in StaticResourceLocation enum class (images, css, js, webjars, etc.)
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                             // the URLs below are available for all users - logged in and anonymous
-                            .requestMatchers("/", "/index", "/users/login", "/users/register", "/users/login-error").permitAll()
+                            .requestMatchers("/", "/index", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
                             // the URLs below are available only for moderators or admins
                             .requestMatchers("/pages/moderators").hasAnyRole(UserRoleEnum.MODERATOR.name(), UserRoleEnum.ADMIN.name())
                             // the URLs below are available only for admins
@@ -65,11 +74,13 @@ public class SecurityConfiguration {
                             .requestMatchers("/brands/**").permitAll()
                             .requestMatchers("/offers/add").authenticated()
                             .requestMatchers("/offers/**").permitAll()
-                            .anyRequest()
-                            .authenticated();
+                            // all other requests are authenticated
+                            .anyRequest().authenticated();
                 })
                 .formLogin(form -> {
                     form
+                            // redirect here when we access something which is not allowed
+                            // also this is the page where we perform login
                             .loginPage("/users/login")
                             .loginProcessingUrl("/users/login")
                             .failureForwardUrl("/users/login-error")
@@ -82,13 +93,22 @@ public class SecurityConfiguration {
                 })
                 .logout(logout -> {
                     logout
+                            // the URL where we should POST in order to perform the logout
                             .logoutUrl("/users/logout")
-                            // go to home page after logout
+                            // where to go when logged out
                             .logoutSuccessUrl("/")
                             .clearAuthentication(true)
                             .invalidateHttpSession(true)
                             .deleteCookies("JSESSIONID")
                             .permitAll();
+                })
+                .rememberMe(rememberMe -> {
+                    rememberMe
+                            .key(rememberMeKey)
+                            .tokenValiditySeconds(604800)
+                            .rememberMeParameter("remember-me-par")
+                            .rememberMeCookieName("remember-me-cookie");
+                    // https://docs.spring.io/spring-security/reference/servlet/authentication/rememberme.html
                 })
                 .securityContext(context -> {
                     context.securityContextRepository(securityContextRepository());

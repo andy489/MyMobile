@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.URL;
 @Setter
 @Accessors(chain = true)
 @ToString
-public class OfferAddDTO {
+public class OfferAddDto {
 
     @NotNull(message = "model is required")
     @Min(value = 1, message = "invalid model")

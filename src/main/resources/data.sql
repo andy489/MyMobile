@@ -15,7 +15,7 @@ VALUES (1, 'admin', 'Admin', 'Adminov', 'admin@gmail.com', null, true,
        (4, 'andy489', 'Andrey', 'Stoev', 'stoev.andy@gmail.com', null, true,
         '$2a$10$wucq9UuS.SqYIIbwE6BQFeYx.XVcAS33cQbLVrPlv0sxBWYS6rb9W');
 
-INSERT INTO users_user_roles(user_entity_id, user_roles_id)
+INSERT INTO users_roles(user_id, role_id)
 VALUES (1, 1),
        (2, 2),
        (3, 3),

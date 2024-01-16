@@ -1,7 +1,7 @@
 package com.soft.mobilele.service;
 
 import com.soft.mobilele.mapper.MapStructMapper;
-import com.soft.mobilele.model.dto.UserRegistrationDTO;
+import com.soft.mobilele.model.dto.UserRegistrationDto;
 import com.soft.mobilele.model.entity.UserEntity;
 import com.soft.mobilele.model.enumarated.UserRoleEnum;
 import com.soft.mobilele.repository.UserRepository;
@@ -59,7 +59,7 @@ public class UserService {
 //        this.defaultAdminPassword = defaultAdminPassword;
     }
 
-    public void registerAndLogin(UserRegistrationDTO userRegistrationDto,
+    public void registerAndLogin(UserRegistrationDto userRegistrationDto,
                                  Locale localeResolver,
                                  Consumer<Authentication> successfulLoginProcessor) {
 

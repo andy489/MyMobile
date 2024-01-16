@@ -10,13 +10,13 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class BrandDTO {
+public class BrandDto {
 
     private String name;
 
-    private List<ModelDTO> models = new ArrayList<>();
+    private List<ModelDto> models = new ArrayList<>();
 
-    public BrandDTO addModel(ModelDTO modelDto) {
+    public BrandDto addModel(ModelDto modelDto) {
         if (this.models == null) {
             this.models = new ArrayList<>();
         }

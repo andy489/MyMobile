@@ -18,8 +18,6 @@
     <form id="offer-search-form"
           class="form-inline justify-content-center"
           th:object="${offerSearchModel}">
-        <!--th:action="@{/offers}"-->
-        <!--th:method="get"-->
 
         <div class="border border-secondary p-3 rounded bg-light">
             <div class="d-inline-block">
@@ -33,7 +31,6 @@
                                type="search"
                                th:placeholder="#{offers_model}"/>
                     </div>
-
                     <div class="mt-2">
                         <input th:field="*{descriptionInfix}"
                                th:errorclass="is-invalid"
@@ -62,7 +59,6 @@
                             </option>
                         </select>
                     </div>
-
                     <div class="mt-2">
                         <select th:field="*{transmissionType}"
                                 th:errorclass="is-invalid"
@@ -92,7 +88,6 @@
                                th:placeholder="#{offers_year_from}"/>
                         <p th:replace="~{fragments/commons::error-form-msg}"></p>
                     </div>
-
                     <div class="mt-2">
                         <input th:field="*{yearTo}"
                                th:errorclass="is-invalid"
@@ -117,7 +112,6 @@
                                th:placeholder="#{offers_mileage_from}"/>
                         <p th:replace="~{fragments/commons::error-form-msg}"></p>
                     </div>
-
                     <div class="mt-2">
                         <input th:field="*{mileageTo}"
                                th:errorclass="is-invalid"
@@ -142,7 +136,6 @@
                                th:placeholder="#{offers_min_price}"/>
                         <p th:replace="~{fragments/commons::error-form-msg}"></p>
                     </div>
-
                     <div class="mt-2">
                         <input th:field="*{maxPrice}"
                                th:errorclass="is-invalid"
@@ -151,7 +144,6 @@
                                th:placeholder="#{offers_max_price}"/>
                         <p th:replace="~{fragments/commons::error-form-msg}"></p>
                     </div>
-
                 </div>
             </div>
 
@@ -164,7 +156,6 @@
                         <label class="custom-control-label" for="check-awd" th:text="#{check_awd}">
                             {4x4 All-wheel drive}</label>
                     </div>
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-xenon" type="checkbox" class="custom-control-input form-control"
                                th:field="*{xenonLights}"/>
@@ -180,7 +171,6 @@
                         <label class="custom-control-label" for="check-climatic" th:text="#{check_climatic}">
                             {Climatic}</label>
                     </div>
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-isofix" type="checkbox" class="custom-control-input form-control"
                                th:field="*{isofixSystem}"/>
@@ -190,14 +180,12 @@
                 </div>
 
                 <div id="additional-check-col-3" class="d-inline-block ml-3">
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-parktronic" type="checkbox" class="custom-control-input form-control"
                                th:field="*{parktronic}"/>
                         <label class="custom-control-label" for="check-parktronic" th:text="#{check_parktronic}">
                             {Parktronic}</label>
                     </div>
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-anti-block" type="checkbox" class="custom-control-input form-control"
                                th:field="*{antiBlockingSystem}"/>
@@ -207,14 +195,12 @@
                 </div>
 
                 <div id="additional-check-col-4" class="d-inline-block ml-3">
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-navi" type="checkbox" class="custom-control-input form-control"
                                th:field="*{navi}"/>
                         <label class="custom-control-label" for="check-navi" th:text="#{check_navi}">
                             {Navigation}</label>
                     </div>
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-cabriolet" type="checkbox" class="custom-control-input form-control"
                                th:field="*{cabriolet}"/>
@@ -223,14 +209,12 @@
                     </div>
                 </div>
                 <div id="additional-check-col-5" class="d-inline-block ml-3">
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-leasing" type="checkbox" class="custom-control-input form-control"
                                th:field="*{leasing}"/>
                         <label class="custom-control-label" for="check-leasing" th:text="#{check_leasing}">
                             {Leasing}</label>
                     </div>
-
                     <div class="custom-control form-control-lg custom-checkbox additional-check-box">
                         <input id="check-bluetooth" type="checkbox" class="custom-control-input form-control"
                                th:field="*{bluetooth}"/>
@@ -238,7 +222,6 @@
                             {Bluetooth/handsfree}</label>
                     </div>
                 </div>
-
             </div>
 
             <div class="d-flex justify-content-between mt-4">
@@ -269,23 +252,10 @@
                     {Search}
                 </a>
                 <div>
-
-                    <select id="sort-type"
-                            th:field="*{sortDirection}"
-                            th:errorclass="is-invalid"
-                            class="form-control btn-secondary ml-5 mr-2">
-                        <option value="" th:text="#{search_sort_type}">{- ASC/DESC -}</option>
-                        <option th:each="s : ${T(com.soft.mobilele.model.enumarated.SortDirection).values()}"
-                                th:text="${s}"
-                                th:value="${s}">
-                            {Sort by criteria}
-                        </option>
-                    </select>
-
                     <select id="sort-by"
                             th:field="*{sortBy}"
                             th:errorclass="is-invalid"
-                            class="form-control btn-secondary">
+                            class="form-control btn-secondary ml-5 mr-2">
                         <option value="" th:text="#{search_sort_by}">{- Sort by -}</option>
                         <option th:each="s : ${T(com.soft.mobilele.model.enumarated.SortBy).values()}"
                                 th:text="${s.getDisplayName()}"
@@ -293,7 +263,17 @@
                             {Sort by criteria}
                         </option>
                     </select>
-
+                    <select id="sort-type"
+                            th:field="*{sortDirection}"
+                            th:errorclass="is-invalid"
+                            class="form-control btn-secondary">
+                        <option value="" th:text="#{search_sort_type}">{- ASC/DESC -}</option>
+                        <option th:each="s : ${T(com.soft.mobilele.model.enumarated.SortDirection).values()}"
+                                th:text="${s}"
+                                th:value="${s}">
+                            {Sort by criteria}
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -320,40 +300,30 @@
                     <a th:unless="*{isFirst()}" class="page-link"
                        th:onclick="gotoPage(this, 0)"
                        th:text="#{offers_page_first}">{First}</a>
-                    <!--th:href="@{/offers(size = *{getSize()},page=0)}"-->
-
                 </li>
             </ul>
         </nav>
         <nav>
             <ul class="pagination">
                 <li class="page-item" th:classappend="*{hasPrevious() ? '' : 'disabled'}">
-
                     <a th:if="*{hasPrevious()}" class="page-link"
                        th:onclick="|gotoPage(this, '*{getNumber() - 1}')|"
                        th:text="#{offers_page_prev}">{Previous}</a>
-                    <!--th:href="@{/offers(size = *{getSize()},page=*{getNumber() - 1})}"-->
-
                     <a th:unless="*{hasPrevious()}"
                        class="page-link" href="#"
                        th:text="#{offers_page_prev}">{Previous}</a>
-
                 </li>
             </ul>
         </nav>
         <nav>
             <ul class="pagination">
                 <li class="page-item" th:classappend="*{hasNext() ? '' : 'disabled'}">
-
                     <a th:if="*{hasNext()}" class="page-link"
                        th:onclick="|gotoPage(this, '*{getNumber() + 1}')|"
                        th:text="#{offers_page_next}">{Next}</a>
-                    <!--th:href="@{/offers(size = *{getSize()},page=*{getNumber() + 1})}"-->
-
                     <a th:unless="*{hasNext()}"
                        class="page-link" href="#"
                        th:text="#{offers_page_next}">{Next}</a>
-
                 </li>
             </ul>
         </nav>
@@ -368,8 +338,6 @@
                     <a th:unless="*{isLast()}" class="page-link"
                        th:onclick="gotoPage(this, [[*{getTotalPages() - 1}]])"
                        th:text="#{offers_page_last}">{Last}</a>
-                    <!--th:href="@{/offers(size = *{getSize()},page=*{getTotalPages() - 1})}"-->
-
                 </li>
             </ul>
         </nav>
@@ -414,16 +382,23 @@
                         <span th:text="#{offers_view_year} + ': ' + *{year}">{Year}</span>
                     </div>
                     <div class="card-text">
-                        <span th:text="#{offers_view_price} + ': ' + *{price} + ' ' + #{offers_view_EUR} ">{Price}</span>
+                        <span th:text="#{offers_view_price} + ': ' + *{price} + ' ' + #{offers_view_EUR} ">
+                            {Price}
+                        </span>
                     </div>
                     <div class="card-text">
-                        <span th:text="#{offers_view_mileage} + ': ' + *{mileage} + ' ' + #{offers_view_km}">{Mileage}</span>
+                        <span th:text="#{offers_view_mileage} + ': ' + *{mileage} + ' ' + #{offers_view_km}">
+                            {Mileage}
+                        </span>
                     </div>
                     <div class="card-text">
-                        <span th:text="#{offers_view_engine} + ': ' + *{engineType}">{Engine type}</span>
+                        <span th:text="#{offers_view_engine} + ': ' + *{engineType}">
+                            {Engine type}
+                        </span>
                     </div>
                     <div class="card-text">
-                        <span th:text="#{offers_view_transmission} + ': ' + *{transmissionType}">{Transmission type}
+                        <span th:text="#{offers_view_transmission} + ': ' + *{transmissionType}">
+                            {Transmission type}
                         </span>
                     </div>
                 </li>
@@ -441,7 +416,6 @@
     <footer th:replace="~{fragments/commons::footer}"></footer>
 
 </div>
-
 
 <script src="/js/advanced-search-toggle.js"></script>
 <script src="/js/offer-search.js"></script>

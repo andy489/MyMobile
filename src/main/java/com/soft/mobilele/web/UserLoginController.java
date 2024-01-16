@@ -21,8 +21,7 @@ public class UserLoginController extends GenericController {
     @PostMapping("/login-error")
     public ModelAndView onFailedLogin(
             RedirectAttributes redirectAttributes,
-            @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username
-    ) {
+            @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username) {
 
         redirectAttributes.addFlashAttribute("bad_credentials", true);
         redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);

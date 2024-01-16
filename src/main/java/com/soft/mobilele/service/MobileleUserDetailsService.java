@@ -9,7 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
-// NOTE: This is not annotated as @Service, because we will return it as a bean.
+// NOTE: This is not annotated as @Service, because we will return it as a bean,
+// but the bean is already created in SecurityConfiguration class
 public class MobileleUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -29,9 +30,9 @@ public class MobileleUserDetailsService implements UserDetailsService {
                 .map(u -> {
                     MobileleUserDetails userDetails = mapper.toUserDetails(u);
 
-                    userDetails.setAuthorities(u.getUserRoles().stream().map(mapper::toGrantedAuthority)
+                    userDetails.setAuthorities(u.getUserRoles().stream()
+                            .map(mapper::toGrantedAuthority)
                             .toList());
-
 
                     return userDetails;
                 });
