@@ -44,6 +44,10 @@ public class UserRegistrationDto {
 
     private String confirmPassword;
 
+    public String getUserFullName() {
+        return firstName + " " + lastName;
+    }
+
     @Override
     public String toString() {
         return "UserRegisterDto{" +

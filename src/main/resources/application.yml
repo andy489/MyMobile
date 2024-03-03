@@ -1,7 +1,10 @@
+server:
+  error:
+    include-stacktrace: ON_PARAM
 spring:
   security:
     user:
-      name: ${SEC_USER:test}
+      name: ${SEC_USER:test}c
       password: ${SEC_PASS:1234}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,6 +29,10 @@ spring:
     password: ${MYSQL_PASS:root}
     locations: classpath:db.migration
     baseline-on-migrate: true
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
 
 #logging:
 #  level:
@@ -34,21 +41,31 @@ spring:
 #    org.hibernate.orm.jdbc.bind: TRACE
 #    org.springframework.security: TRACE
 
+# $ mailhog
+# localhost:8025
 mail:
+  app-mail: "mobilele@mobilele.com"
   host: "localhost"
   port: 1025
-  username: "mobilele@mobilele.com"
-  password: ""
+  username: ${MAIL_HOG_USER:mobilele@mobilele.com}
+  password: ${MAIL_HOG_PASS:1234}
 
 mobilele:
-  remember.me.key: ${REMEMBER_ME_KEY:topsecret}
+  remember-me-key: ${REMEMBER_ME_KEY:topsecret}
 
-
+# https://openexchangerates.org/account/app-ids
+# https://docs.openexchangerates.org/reference/api-introduction
+# https://openexchangerates.org/api/latest.json
+#             ?app_id=YOUR_APP_ID
+#             &base=USD
+#             $symbols=GBP,BGN,EUR
+#             &callback=someCallbackFunction
+# https://openexchangerates.org/api/latest.json?app_id=434ee4cf9aba48afa975132cc3fd2d8d&base=USD&symbols=BGN,EUR,GBNP
 open.exchange.rates:
   schema: https
   host: openexchangerates.org
   path: /api/latest.json
-  app_id: ${APP_ID:123}
+  app_id: ${OPEN_EXCHANGE_APP_ID:123}
   symbols: BGN,EUR,GBP
   decimal-precision: 3
   enabled: true

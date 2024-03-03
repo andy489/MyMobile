@@ -1,7 +1,7 @@
 package com.soft.mobilele.model.dto;
 
-import com.soft.mobilele.model.enumarated.EngineEnum;
-import com.soft.mobilele.model.enumarated.TransmissionEnum;
+import com.soft.mobilele.model.enumerated.EngineEnum;
+import com.soft.mobilele.model.enumerated.TransmissionEnum;
 import com.soft.mobilele.model.validation.offer.YearAfter1960AndNotFuture;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

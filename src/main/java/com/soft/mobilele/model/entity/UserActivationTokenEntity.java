@@ -1,24 +1,28 @@
 package com.soft.mobilele.model.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.Instant;
+
 @Entity
 @Table(name = "activation_tokens")
 @Getter
 @Setter
 @Accessors(chain = true)
-public class UserActivationLinkEntity extends GenericEntity {
+public class UserActivationTokenEntity extends GenericEntity {
 
 
-    @OneToOne
+    @ManyToOne
     private UserEntity user;
 
     private String activationToken;
 
+    private Instant created;
 
 }

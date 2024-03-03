@@ -1,7 +1,7 @@
 package com.soft.mobilele.service;
 
 import com.soft.mobilele.model.entity.UserRoleEntity;
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.repository.UserRoleRepository;
 import org.springframework.stereotype.Service;
 

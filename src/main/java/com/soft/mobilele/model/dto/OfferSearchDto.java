@@ -1,8 +1,8 @@
 package com.soft.mobilele.model.dto;
 
-import com.soft.mobilele.model.enumarated.EngineEnum;
-import com.soft.mobilele.model.enumarated.SortBy;
-import com.soft.mobilele.model.enumarated.TransmissionEnum;
+import com.soft.mobilele.model.enumerated.EngineEnum;
+import com.soft.mobilele.model.enumerated.SortBy;
+import com.soft.mobilele.model.enumerated.TransmissionEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

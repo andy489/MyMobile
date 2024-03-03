@@ -3,14 +3,13 @@ package com.soft.mobilele.service;
 import com.soft.mobilele.mapper.MapStructMapper;
 import com.soft.mobilele.model.entity.UserEntity;
 import com.soft.mobilele.model.entity.UserRoleEntity;
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.model.user.MobileleUserDetails;
 import com.soft.mobilele.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class) // Junit 5
-public class MobileleUserDetailsServiceTest {
+class MobileleUserDetailsServiceTest {
 
     @Mock
     private UserRepository mockUserRepo;
@@ -115,7 +114,9 @@ public class MobileleUserDetailsServiceTest {
                 () -> assertEquals(userDetails.getFullName(), testUserEntity.getFullName(),
                         "Expect full name to match"),
 
-                () -> assertTrue(list1.containsAll(list2) && list2.containsAll(list1),
+                () -> assertTrue(list1.containsAll(list2) &&
+                                list2.containsAll(list1) &&
+                                list1.size() == list2.size(),
                         "Expect roles to match")
         );
         // EO: assert

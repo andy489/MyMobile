@@ -22,6 +22,7 @@ CREATE TABLE `activation_tokens`
 (
     `id`               bigint NOT NULL AUTO_INCREMENT,
     `activation_token` varchar(255) DEFAULT NULL,
+    `created`          datetime(6)  DEFAULT NULL,
     `user_id`          bigint       DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `UK_gcvbc60fw9x3ehvlxdsq2kvrn` (`user_id`),
@@ -42,7 +43,7 @@ CREATE TABLE `user_roles`
 CREATE TABLE `users_roles`
 (
     `user_id` bigint NOT NULL,
-    `role_id`  bigint NOT NULL,
+    `role_id` bigint NOT NULL,
     KEY `FKdwlsjl9336fne9vntsddpf6xs` (`role_id`),
     KEY `FKmch2wehr2qllj0ub9y4anjs9i` (`user_id`),
     CONSTRAINT `FKdwlsjl9336fne9vntsddpf6xs` FOREIGN KEY (`role_id`) REFERENCES `user_roles` (`id`),

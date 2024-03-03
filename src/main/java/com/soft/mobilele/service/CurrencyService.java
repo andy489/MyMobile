@@ -2,8 +2,12 @@ package com.soft.mobilele.service;
 
 import com.soft.mobilele.config.OpenExchangeRateConfig;
 import com.soft.mobilele.model.dto.ExchangeRatesDto;
+import com.soft.mobilele.model.dto.rest.ConvertRequestDto;
+import com.soft.mobilele.model.dto.rest.MoneyDto;
 import com.soft.mobilele.model.entity.ExchangeRateEntity;
+import com.soft.mobilele.model.exception.ResourceNotFoundException;
 import com.soft.mobilele.repository.ExchangeRateRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -69,6 +74,18 @@ public class CurrencyService {
         LOGGER.info("Rates refreshed...");
     }
 
+    public MoneyDto convert(ConvertRequestDto convertRequestDto) {
+
+        ExchangeRateEntity exchangeRateEntity = exchangeRateRepository.findById(convertRequestDto.target())
+                .orElseThrow(() -> new ResourceNotFoundException("Conversion to target " +
+                        convertRequestDto.target() + " not possible!"));
+
+        return new MoneyDto(
+                convertRequestDto.target(),
+                exchangeRateEntity.getRate().multiply(convertRequestDto.amount())
+        );
+    }
+
     private static Optional<BigDecimal> getExchangeRate(ExchangeRatesDto exchangeRatesDto, String from, String to,
                                                         Integer decimalPrecision) {
         Objects.requireNonNull(from, "From currency cannot be null");
@@ -107,5 +124,4 @@ public class CurrencyService {
 
         return Optional.empty();
     }
-
 }

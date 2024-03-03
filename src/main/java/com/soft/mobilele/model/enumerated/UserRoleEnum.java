@@ -1,4 +1,4 @@
-package com.soft.mobilele.model.enumarated;
+package com.soft.mobilele.model.enumerated;
 
 public enum UserRoleEnum {
     USER,

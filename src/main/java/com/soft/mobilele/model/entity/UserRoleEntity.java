@@ -1,6 +1,6 @@
 package com.soft.mobilele.model.entity;
 
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

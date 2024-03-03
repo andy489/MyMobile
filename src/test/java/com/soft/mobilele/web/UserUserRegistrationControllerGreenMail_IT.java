@@ -17,8 +17,6 @@ import org.springframework.util.MultiValueMap;
 
 import jakarta.mail.internet.MimeMessage;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -28,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserUserRegistrationControllerGreenMail_IT {
+class UserUserRegistrationControllerGreenMail_IT {
 
     @Value("${mail.port}")
     private Integer mailPort;

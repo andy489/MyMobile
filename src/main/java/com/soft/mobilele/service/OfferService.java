@@ -9,6 +9,8 @@ import com.soft.mobilele.model.entity.UserEntity;
 import com.soft.mobilele.model.view.OfferDetailsView;
 import com.soft.mobilele.repository.OfferRepository;
 import com.soft.mobilele.repository.OfferSpecification;
+import jakarta.transaction.Transactional;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,8 +40,8 @@ public class OfferService {
             MapStructMapper mapper,
             UserService userService,
             ModelService modelService,
-            BrandService brandService
-    ) {
+            BrandService brandService) {
+
         this.offerRepository = offerRepository;
         this.mapper = mapper;
         this.userService = userService;
@@ -51,8 +53,7 @@ public class OfferService {
 
         OfferEntity offerEntity = mapper.toEntity(offerAddDto);
 
-        UserEntity userEntity = userService.getByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException("No such user (addOffer)"));
+        UserEntity userEntity = userService.getByEmail(email);
         ModelEntity modelEntity = modelService.getById(offerAddDto.getModelId())
                 .orElseThrow(() -> new NoSuchElementException("No such model (addOffer)"));
 
@@ -85,8 +86,14 @@ public class OfferService {
     public OfferDetailsView getOfferDetails(String offerId) {
 
         OfferEntity offerEntity = offerRepository.findById(offerId)
-                .orElseThrow(() -> new NoSuchElementException("No such offer (getOfferDetails)"));
+                .orElseThrow(() -> new NoSuchElementException("Offer with id=" + offerId + " not found!"));
 
         return mapper.toDetailsView(offerEntity);
+    }
+
+    @Transactional
+    public void deleteOffer(String offerId){
+
+        offerRepository.deleteById(offerId);
     }
 }

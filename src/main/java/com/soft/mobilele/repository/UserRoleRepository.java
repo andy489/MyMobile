@@ -1,7 +1,7 @@
 package com.soft.mobilele.repository;
 
 import com.soft.mobilele.model.entity.UserRoleEntity;
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

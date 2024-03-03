@@ -10,16 +10,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/offers")
@@ -54,8 +60,8 @@ public class OfferController extends GenericController {
             @Valid @ModelAttribute(name = "offerAddModel") OfferAddDto offerAddDTO,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
-            @AuthenticationPrincipal MobileleUserDetails userDetails
-    ) {
+            @AuthenticationPrincipal MobileleUserDetails userDetails) {
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddModel", offerAddDTO);
             redirectAttributes.addFlashAttribute(BINDING_RESULT_PATH + "offerAddModel", bindingResult);
@@ -73,8 +79,9 @@ public class OfferController extends GenericController {
             @Valid @ModelAttribute(name = "offerSearchModel") OfferSearchDto offerSearchDTO,
             BindingResult bindingResult,
             ModelAndView modelAndView,
-            @PageableDefault(page = 0, size = 10, sort = "price", direction = Sort.Direction.ASC) Pageable pageRequest
-    ) {
+            @PageableDefault(page = 0, size = 10, sort = "price", direction = Sort.Direction.ASC)
+            Pageable pageRequest) {
+        
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("offerSearchModel", offerSearchDTO);
             modelAndView.addObject(BINDING_RESULT_PATH + "offerSearchModel", bindingResult);
@@ -96,4 +103,22 @@ public class OfferController extends GenericController {
 
         return super.view("details", modelAndView);
     }
+
+    @DeleteMapping("/{id}")
+    public ModelAndView delete(@PathVariable("id") String offerId){
+
+        offerService.deleteOffer(offerId);
+
+        return super.redirect("/offers");
+    }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchElementException.class)
+    public ModelAndView onProductNotFound(NoSuchElementException noSuchElementException) {
+
+//        modelAndView.addObject("productId", noSuchElementException.getProductId());
+
+        return super.view("/error/404");
+    }
+
 }

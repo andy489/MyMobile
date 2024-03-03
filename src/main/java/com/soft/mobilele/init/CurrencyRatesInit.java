@@ -3,14 +3,20 @@ package com.soft.mobilele.init;
 import com.soft.mobilele.config.OpenExchangeRateConfig;
 import com.soft.mobilele.model.dto.ExchangeRatesDto;
 import com.soft.mobilele.service.CurrencyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class CurrencyRatesInit implements CommandLineRunner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyService.class);
+
 
     // https://docs.openexchangerates.org/reference/latest-json
     // https://openexchangerates.org/api/latest.json?app_id=434ee4cf9aba48afa975132cc3fd2d8d&symbols=BGN,EUR,GBP
@@ -28,6 +34,8 @@ public class CurrencyRatesInit implements CommandLineRunner {
         this.openExchangeRateConfig = openExchangeRateConfig;
         this.restTemplate = restTemplate;
         this.currencyService = currencyService;
+
+        restTemplate.setErrorHandler(new CurrencyRatesErrorHandler());
     }
 
     @Override
@@ -48,16 +56,21 @@ public class CurrencyRatesInit implements CommandLineRunner {
                     "symbols", String.join(",", openExchangeRateConfig.getSymbols())
             );
 
-            ExchangeRatesDto exchangeRatesDto = restTemplate
-                    .getForObject(openExchangeRateUrlTemplate,
-                            ExchangeRatesDto.class,
-                            requestParams);
+            try {
+                ExchangeRatesDto exchangeRatesDto = restTemplate
+                        .getForObject(openExchangeRateUrlTemplate,
+                                ExchangeRatesDto.class,
+                                requestParams);
 
-            System.out.println("-------- RECEIVED FROM OPEN EXCHANGE RATES --------");
-            System.out.println(exchangeRatesDto);
-            System.out.println("-------- RECEIVED FROM OPEN EXCHANGE RATES --------");
+                assert exchangeRatesDto != null;
+                if (!Objects.isNull(exchangeRatesDto.getBase())) {
 
-            currencyService.refreshRates(exchangeRatesDto);
+                    LOGGER.info("Received from OPEN EXCHANGE RATES: {}.", exchangeRatesDto);
+
+                    currencyService.refreshRates(exchangeRatesDto);
+                }
+            } catch (RuntimeException ignored) {
+            }
         }
     }
 }

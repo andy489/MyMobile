@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments/commons::head}"></head>
 
@@ -12,8 +13,11 @@
 
 <div class="container-fluid">
   <h5 class="text-center text-white mt-5">
-    OOPS! This functionality is under construction.
+    Oops, This functionality is under construction.
   </h5>
+  <div class="text-center mt-5 mb-5">
+    <img th:src="@{/images/broken-engine.png}" alt="" src="" class="w-25">
+  </div>
 </div>
 
 <div>

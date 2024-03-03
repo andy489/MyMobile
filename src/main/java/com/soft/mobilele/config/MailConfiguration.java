@@ -12,19 +12,18 @@ import java.util.Properties;
 public class MailConfiguration {
 
     @Bean
-    public JavaMailSender javaMailSender(
-            @Value("${mail.host}") String mailHost,
-            @Value("${mail.port}") Integer mailPort,
-            @Value("${mail.username}") String mailUsername,
-            @Value("${mail.password}") String mailPassword
-    ) {
+    public JavaMailSender javaMailSender(@Value("${mail.host}") String host,
+                                         @Value("${mail.port}") Integer port,
+                                         @Value("${mail.username}") String username,
+                                         @Value("${mail.password}") String password) {
+
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
 
-        javaMailSender.setHost(mailHost);
-        javaMailSender.setPort(mailPort);
+        javaMailSender.setHost(host);
+        javaMailSender.setPort(port);
 
-        javaMailSender.setUsername(mailUsername);
-        javaMailSender.setPassword(mailPassword);
+        javaMailSender.setUsername(username);
+        javaMailSender.setPassword(password);
 
         javaMailSender.setJavaMailProperties(mailProperties());
         javaMailSender.setDefaultEncoding("UTF-8");

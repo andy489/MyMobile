@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+
+<div>
+    <header th:replace="~{fragments/commons::navigation}"></header>
+</div>
+
+<div class="container-fluid">
+    <h5 class="text-center text-white mt-5">
+        Oops, something went terribly wrong!
+    </h5>
+    <h5 class="text-center text-white mt-5">
+        We are very sorry, and we are working to resolve the problem.
+    </h5>
+    <div class="text-center mt-5 mb-5">
+        <img th:src="@{/images/broken-engine.png}" alt="" src="" class="w-25">
+    </div>
+</div>
+
+<div>
+    <footer th:replace="~{fragments/commons::footer}"></footer>
+</div>
+
+</body>
+</html>

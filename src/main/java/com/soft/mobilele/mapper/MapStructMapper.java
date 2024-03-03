@@ -17,7 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Mapper(componentModel = "spring")
 public interface MapStructMapper {
 
-    @Mapping(target = "isActive", constant = "true")
+    @Mapping(target = "isActive", constant = "false")
     @Mapping(target = "imageUrl", ignore = true)
     @Mapping(target = "userRoles", ignore = true)
     @Mapping(target = "id", ignore = true)

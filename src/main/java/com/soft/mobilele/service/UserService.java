@@ -3,11 +3,14 @@ package com.soft.mobilele.service;
 import com.soft.mobilele.mapper.MapStructMapper;
 import com.soft.mobilele.model.dto.UserRegistrationDto;
 import com.soft.mobilele.model.entity.UserEntity;
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
+import com.soft.mobilele.model.event.UserRegisteredEvent;
 import com.soft.mobilele.repository.UserRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.mail.MailSendException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,9 +39,11 @@ public class UserService {
 
     private final UserRoleService userRoleService;
 
-    private final EmailService emailService;
+    private final MailService mailService;
 
 //    private final String defaultAdminPassword;
+
+    private final ApplicationEventPublisher appEventPublisher;
 
     @Autowired
     public UserService(
@@ -47,20 +52,20 @@ public class UserService {
             MapStructMapper mapper,
             UserDetailsService userDetailsService,
             UserRoleService userRoleService,
-            EmailService emailService
-//            ,@Value("{mobilele.admin.defaultpass}") String defaultAdminPassword
-    ) {
+            MailService mailService,
+            ApplicationEventPublisher appEventPublisher) {
+
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.mapper = mapper;
         this.userDetailsService = userDetailsService;
         this.userRoleService = userRoleService;
-        this.emailService = emailService;
-//        this.defaultAdminPassword = defaultAdminPassword;
+        this.mailService = mailService;
+        this.appEventPublisher = appEventPublisher;
     }
 
     public void registerAndLogin(UserRegistrationDto userRegistrationDto,
-                                 Locale localeResolver,
+                                 Locale locale,
                                  Consumer<Authentication> successfulLoginProcessor) {
 
         UserEntity newUser = mapper.toEntity(userRegistrationDto);
@@ -70,14 +75,10 @@ public class UserService {
 
         newUser = userRepository.save(newUser);
 
-        try {
-            // send email
-            emailService.sendRegistrationEmail(newUser.getEmail(), newUser.getFullName(), localeResolver);
-        } catch (MailSendException mse) {
-            LOGGER.warn("Failed to send email to user: " + userRegistrationDto.getUsername());
-            LOGGER.warn("SMTP server connection (MailHog) refused: " + mse.getLocalizedMessage());
-//            throw new IllegalStateException();
-        }
+        UserRegisteredEvent userRegisteredEvent = new UserRegisteredEvent("UserService",
+                userRegistrationDto.getEmail(), userRegistrationDto.getUserFullName(), locale);
+
+        appEventPublisher.publishEvent(userRegisteredEvent);
 
         // auto-login
         UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
@@ -92,8 +93,9 @@ public class UserService {
     }
 
 
-    public Optional<UserEntity> getByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserEntity getByEmail(String email) {
+
+        return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found"));
     }
 
     public UserEntity getById(Long id) {

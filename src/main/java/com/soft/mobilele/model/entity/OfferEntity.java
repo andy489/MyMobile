@@ -1,7 +1,7 @@
 package com.soft.mobilele.model.entity;
 
-import com.soft.mobilele.model.enumarated.EngineEnum;
-import com.soft.mobilele.model.enumarated.TransmissionEnum;
+import com.soft.mobilele.model.enumerated.EngineEnum;
+import com.soft.mobilele.model.enumerated.TransmissionEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

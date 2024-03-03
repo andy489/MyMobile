@@ -64,7 +64,7 @@
                         th:errorclass="is-invalid"
                         class="form-control">
                     <option value="" th:text="#{offer_upload_engine_place}">{- Select engine type -}</option>
-                    <option th:each="e : ${T(com.soft.mobilele.model.enumarated.EngineEnum).values()}"
+                    <option th:each="e : ${T(com.soft.mobilele.model.enumerated.EngineEnum).values()}"
                             th:text="${e}"
                             th:value="${e}">
                         {Engine type}
@@ -84,7 +84,7 @@
                         class="form-control">
                     <option value="" th:text="#{offer_upload_transmission_place}">{- Select transmission type -}
                     </option>
-                    <option th:each="t : ${T(com.soft.mobilele.model.enumarated.TransmissionEnum).values()}"
+                    <option th:each="t : ${T(com.soft.mobilele.model.enumerated.TransmissionEnum).values()}"
                             th:text="${t.getFullName()}"
                             th:value="${t}">
                         {Transmission type}

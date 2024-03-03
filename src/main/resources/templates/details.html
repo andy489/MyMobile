@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments/commons::head}"></head>
 
@@ -75,13 +76,18 @@
 
             <hr/>
 
-            <div class="card-body">
+            <div class="card-body" sec:authorize="isAuthenticated()">
 
-                <a class="card-link btn-primary rounded p-2 font-weight-bold" href="/"
-                   th:text="#{offers_details_upd}">{Update}</a>
+<!--                <a class="card-link btn-primary rounded p-2 font-weight-bold" href="/"-->
+<!--                   th:text="#{offers_details_upd}">{Update}</a>-->
 
-                <a class="card-link btn-primary rounded p-2 font-weight-bold" href="/"
-                   th:text="#{offers_details_del}">{Delete}</a>
+                <form th:method="delete"
+                      th:action="@{/offers/{offerId}(offerId=*{id})}">
+
+                    <button class="card-link btn-primary rounded p-2 font-weight-bold"
+                       th:text="#{offers_details_del}">{Delete}</button>
+
+                </form>
 
             </div>
         </div>

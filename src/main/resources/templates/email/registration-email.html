@@ -7,8 +7,16 @@
 <body>
 <h1 th:text="#{registration_email_welcome}">Welcome to Mobilele!</h1>
 <div>
-    <th:block th:text="#{registration_email_dear_user(${username})}"></th:block>
+    <th:block th:text="#{registration_email_dear_user(${username})}">Dear {user}!</th:block>
     <p th:text="#{registration_email_happy}"> We are happy to have you as a part of our community!</p>
+    <span th:text="#{registration_activation_link_prefix}"> Please follow the</span>
+
+    <a class="card-link font-weight-bold" th:href="@{http://localhost:8080/users/activate/{activation_token}(activation_token=${activation_token})}"
+       th:text="#{registration_token_link}">link</a>
+
+    <span th:text="#{registration_activation_link_suffix}">in order to activate your account.
+    </span>
+
     <p th:text="#{registration_email_best_regards}">Best regards, The Mobilele team.</p>
 </div>
 </body>

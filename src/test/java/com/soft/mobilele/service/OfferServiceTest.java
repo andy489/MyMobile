@@ -6,10 +6,10 @@ import com.soft.mobilele.model.entity.ModelEntity;
 import com.soft.mobilele.model.entity.OfferEntity;
 import com.soft.mobilele.model.entity.UserEntity;
 import com.soft.mobilele.model.entity.UserRoleEntity;
-import com.soft.mobilele.model.enumarated.CategoryEnum;
-import com.soft.mobilele.model.enumarated.EngineEnum;
-import com.soft.mobilele.model.enumarated.TransmissionEnum;
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.soft.mobilele.model.enumerated.CategoryEnum;
+import com.soft.mobilele.model.enumerated.EngineEnum;
+import com.soft.mobilele.model.enumerated.TransmissionEnum;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.model.view.OfferDetailsView;
 import com.soft.mobilele.repository.OfferRepository;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class OfferServiceTest {
+class OfferServiceTest {
 
     @Mock
     private OfferRepository mockOfferRepository;

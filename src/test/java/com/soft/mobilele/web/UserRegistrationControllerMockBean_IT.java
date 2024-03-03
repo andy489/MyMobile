@@ -1,14 +1,18 @@
 package com.soft.mobilele.web;
 
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.ServerSetup;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.model.user.MobileleUserDetails;
-import com.soft.mobilele.service.EmailService;
 import com.soft.mobilele.service.UserRoleService;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,8 +26,9 @@ import org.springframework.util.MultiValueMap;
 import java.util.List;
 import java.util.Locale;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserRegistrationControllerMockBean_IT {
+class UserRegistrationControllerMockBean_IT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,8 +47,20 @@ public class UserRegistrationControllerMockBean_IT {
     // @MockBean to mock an object that is present in the Spring application context.
     // It takes care of replacing the bean with what we want to simulate in our test.
     // When we communicate with external server like cloudinary, smtp server or etc.
-    @MockBean
-    private EmailService mockEmailService;
+//    @MockBean
+//    private MailService mockMailService;
+
+    @Value("${mail.port}")
+    private Integer port;
+    @Value("${mail.host}")
+    private String host;
+
+    @Value("${mail.username}")
+    private String username;
+    @Value("${mail.password}")
+    private String password;
+
+    private GreenMail greenMail;
 
     @Mock
     private UserDetailsService mockUserDetailsService;
@@ -51,8 +68,19 @@ public class UserRegistrationControllerMockBean_IT {
     @MockBean
     private UserRoleService mockUserRoleService;
 
+//    @Captor
+//    ArgumentCaptor<String> activationToken;
+
     @BeforeEach
     void setUp() {
+        greenMail = new GreenMail(new ServerSetup(port, host, "smtp"));
+        greenMail.start();
+        greenMail.setUser(username, password);
+    }
+
+    @AfterEach
+    void tearDown() {
+       greenMail.stop();
     }
 
     @Test
@@ -95,11 +123,26 @@ public class UserRegistrationControllerMockBean_IT {
                         .cookie(new Cookie("lang", Locale.GERMAN.getLanguage()))
                 )
                 .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"))
                 .andExpect(redirectedUrl("/"));
 
-        verify(mockEmailService).sendRegistrationEmail(
-                "anna@example.com",
-                "Anna Viktoria",
-                Locale.GERMAN);
+        greenMail.waitForIncomingEmail(1);
+        MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+
+        assertEquals(1, receivedMessages.length);
+        MimeMessage registrationMessage = receivedMessages[0];
+
+        assertTrue(registrationMessage.getContent().toString().contains("Anna Viktoria"));
+        assertEquals(1, registrationMessage.getAllRecipients().length);
+        assertEquals("anna@example.com", registrationMessage.getAllRecipients()[0].toString());
+
+//        verify(mockMailService).sendRegistrationEmail(
+//                eq("anna@example.com"),
+//                eq("Anna Viktoria"),
+//                eq(Locale.GERMAN),
+//                activationToken.capture());
+
+//        assertEquals(activationToken.getValue().length(), 20);
+
     }
 }

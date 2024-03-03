@@ -17,10 +17,22 @@
 #    oracle
 #    url:"jdbc:hsqldb:mem:testdb;sql.syntax_ora=true"
 
+mobilele:
+  remember-me-key: test
 
 mail:
+  app-mail: "mobilele@mobilele.com"
   host: "localhost"
-  port: 1025
-  username: "mobilele@mobilele.com"
-  password: "top-secret"
+  port: 3333
+  username: test
+  password: test
+
+open.exchange.rates:
+  schema: https
+  host: dummy
+  path: /api/latest.json
+  app_id: test
+  symbols: BGN,EUR,GBP
+  decimal-precision: 3
+  enabled: false
 

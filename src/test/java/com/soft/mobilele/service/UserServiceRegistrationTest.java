@@ -4,7 +4,7 @@ import com.soft.mobilele.mapper.MapStructMapper;
 import com.soft.mobilele.model.dto.UserRegistrationDto;
 import com.soft.mobilele.model.entity.UserEntity;
 import com.soft.mobilele.model.entity.UserRoleEntity;
-import com.soft.mobilele.model.enumarated.UserRoleEnum;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.model.user.MobileleUserDetails;
 import com.soft.mobilele.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +15,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,12 +30,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceRegistrationTest {
+class UserServiceRegistrationTest {
 
     private final static String testUsername = "testUsername";
     private final static String testEmail = "test@test.com";
@@ -62,7 +62,7 @@ public class UserServiceRegistrationTest {
     private UserRoleService mockUserRoleService;
 
     @Mock
-    private EmailService mockEmailService;
+    private MailService mockMailService;
 
     @Mock
     private Locale mockLocaleResolver;
@@ -70,8 +70,14 @@ public class UserServiceRegistrationTest {
     @Captor
     private ArgumentCaptor<UserEntity> userEntityArgumentCaptor;
 
+    @Captor
+    private ArgumentCaptor<String> activationToken;
+
     @Mock
     private UserService toTest;
+
+    @Mock
+    ApplicationEventPublisher appEventPublisher;
 
 
     @BeforeEach
@@ -82,7 +88,8 @@ public class UserServiceRegistrationTest {
                 mockMapper,
                 mockUserDetailsService,
                 mockUserRoleService,
-                mockEmailService
+                mockMailService,
+                appEventPublisher
         );
 
         // lenient example
@@ -267,13 +274,7 @@ public class UserServiceRegistrationTest {
                 () -> assertEquals(actualSavedUser.getFirstName(), testReturnedUserEntity.getFirstName(),
                         "Expect first name to match"),
                 () -> assertNull(actualSavedUser.getIsActive(),
-                        "Expected active property not to be set yet"),
-
-                () -> verify(mockEmailService, times(1)).sendRegistrationEmail(
-                        testEmail,
-                        testFirstName + " " + testLastName,
-                        mockLocaleResolver
-                )
+                        "Expected active property not to be set yet")
         );
         // EO: assert
     }
