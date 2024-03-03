@@ -35,6 +35,7 @@ gradle/
 gradlew.bat
 HELP.md
 settings.gradle
+
+# IntelliJ
 .idea
-
-
+out/
