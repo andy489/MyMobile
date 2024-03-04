@@ -1,7 +1,7 @@
 package com.soft.mobilele.web.rest;
 
 
-import com.soft.mobilele.testutils.TestData;
+import com.soft.mobilele.testutils.ExchangeRateTestDataUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,7 +25,7 @@ class CurrencyRestControllerTest {
 
 
     @Autowired
-    private TestData testData;
+    private ExchangeRateTestDataUtil testData;
 
     @Test
     void testConvert() throws Exception {

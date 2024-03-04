@@ -5,6 +5,8 @@ import com.icegreen.greenmail.util.ServerSetup;
 import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.model.user.MobileleUserDetails;
 import com.soft.mobilele.service.UserRoleService;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,64 +23,82 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import jakarta.mail.internet.MimeMessage;
-
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserUserRegistrationControllerGreenMail_IT {
-
-    @Value("${mail.port}")
-    private Integer mailPort;
-
-    @Value("${mail.host}")
-    private String mailHost;
-
-    @Value("${mail.username}")
-    private String mailUsername;
-
-    @Value("${mail.password}")
-    private String mailPassword;
-
-    private GreenMail greenMail;
+class UserRegistrationControllerMockBeanTest_IT {
 
     @Autowired
     private MockMvc mockMvc;
 
+    // @MockBean to mock an object that is present in the Spring application context.
+    // It takes care of replacing the bean with what we want to simulate in our test.
+    // When we communicate with external server like cloudinary, smtp server or etc.
+    // @MockBean
+    // private MailService mockMailService;
+
+    @Value("${mail.port}")
+    private Integer port;
+    @Value("${mail.host}")
+    private String host;
+
+    @Value("${mail.username}")
+    private String username;
+    @Value("${mail.password}")
+    private String password;
+
+    private GreenMail greenMail;
+
     @Mock
     private UserDetailsService mockUserDetailsService;
 
-    @MockBean
-    private UserRoleService mockUserRoleService;
+     @MockBean
+     private UserRoleService mockUserRoleService;
+
+    // @Captor
+    // ArgumentCaptor<String> activationToken;
 
     @BeforeEach
     void setUp() {
-        final String protocol = "smtp";
-
-        greenMail = new GreenMail(new ServerSetup(mailPort, mailHost, protocol));
+        greenMail = new GreenMail(new ServerSetup(port, host, "smtp"));
         greenMail.start();
-        greenMail.setUser(mailUsername, mailPassword);
+        greenMail.setUser(username, password);
     }
 
     @AfterEach
     void tearDown() {
-        greenMail.stop();
+       greenMail.stop();
     }
 
+    @Test
+    void smokeTest() {
+        assertNotNull(mockMvc, "Expect MockMvc to be autowired");
+    }
 
     @Test
-    void testRegistration() throws Exception {
+    void testRegistrationPageShown() throws Exception {
+        mockMvc.perform(get("/users/register"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("auth/register"));
+    }
+
+    @Test
+    void testUserRegistration() throws Exception {
         // arrange
-        MultiValueMap<String, String> keyValueParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, String> keyValueParams = new LinkedMultiValueMap<>();
         keyValueParams.add("username", "anna");
         keyValueParams.add("email", "anna@example.com");
         keyValueParams.add("firstName", "Anna");
@@ -96,26 +116,38 @@ class UserUserRegistrationControllerGreenMail_IT {
 
         when(mockUserDetailsService.loadUserByUsername("anna"))
                 .thenReturn(currUserDetails);
-
         // EO: arrange
 
         // act
         mockMvc.perform(post("/users/register")
                         .params(keyValueParams)
                         .with(csrf())
+                        .cookie(new Cookie("lang", Locale.GERMAN.getLanguage()))
                 )
                 .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:registration-success"))
                 .andExpect(redirectedUrl("registration-success"));
 
+        greenMail.waitForIncomingEmail(1);
         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
         // EO: act
 
-        // assert
-        assertEquals(1, receivedMessages.length, "Expected only 1 message received");
+        // asser
+        assertEquals(1, receivedMessages.length);
+        MimeMessage registrationMessage = receivedMessages[0];
 
-        MimeMessage welcomeMessage = receivedMessages[0];
-        assertTrue(welcomeMessage.getContent().toString().contains("Anna Petrova"),
-                "Expected message to contain user full name");
+        assertTrue(registrationMessage.getContent().toString().contains("Anna Petrova"));
+        assertEquals(1, registrationMessage.getAllRecipients().length);
+        assertEquals("anna@example.com", registrationMessage.getAllRecipients()[0].toString());
         // EO: assert
+
+//        verify(mockMailService).sendRegistrationEmail(
+//                eq("anna@example.com"),
+//                eq("Anna Viktoria"),
+//                eq(Locale.GERMAN),
+//                activationToken.capture());
+
+//        assertEquals(activationToken.getValue().length(), 20);
+
     }
 }
