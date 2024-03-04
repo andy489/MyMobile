@@ -164,7 +164,8 @@ class UserServiceRegistrationTest {
         when(mockUserRepository.save(testUserEntity)).
                 thenReturn(testReturnedUserEntity);
 
-        when(mockUserDetailsService.loadUserByUsername(testReturnedUserEntity.getUsername()))
+        // bypassing strict stubbing
+        lenient().when(mockUserDetailsService.loadUserByUsername(testReturnedUserEntity.getUsername()))
                 .thenReturn(testUserDetails);
 
         // EO: arrange
@@ -244,7 +245,8 @@ class UserServiceRegistrationTest {
         when(mockUserRepository.save(testUserEntity)).
                 thenReturn(testReturnedUserEntity);
 
-        when(mockUserDetailsService.loadUserByUsername(testReturnedUserEntity.getUsername()))
+        // bypassing strict stubbing
+        lenient().when(mockUserDetailsService.loadUserByUsername(testReturnedUserEntity.getUsername()))
                 .thenReturn(testUserDetails);
 
         // EO: arrange

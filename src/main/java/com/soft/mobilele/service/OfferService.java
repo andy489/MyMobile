@@ -8,6 +8,7 @@ import com.soft.mobilele.model.entity.OfferEntity;
 import com.soft.mobilele.model.entity.UserEntity;
 import com.soft.mobilele.model.entity.UserRoleEntity;
 import com.soft.mobilele.model.enumerated.UserRoleEnum;
+import com.soft.mobilele.model.user.MobileleUserDetails;
 import com.soft.mobilele.model.view.OfferDetailsView;
 import com.soft.mobilele.repository.OfferRepository;
 import com.soft.mobilele.repository.OfferSpecification;
@@ -91,13 +92,14 @@ public class OfferService {
                 .map(mapper::toDetailsView);
     }
 
-    public OfferDetailsView getOfferDetails(String offerId, String viewerUsername) {
+    public OfferDetailsView getOfferDetails(String offerId, MobileleUserDetails viewerDetails) {
 
         OfferEntity offerEntity = offerRepository.findById(offerId)
                 .orElseThrow(() -> new NoSuchElementException("Offer with id=" + offerId + " not found!"));
 
         OfferDetailsView detailsView = mapper.toDetailsView(offerEntity);
-        detailsView.setViewerIsOwner(isOwner(offerEntity.getSeller().getId(), viewerUsername));
+        detailsView.setViewerIsOwner(isOwner(offerEntity, viewerDetails != null ? viewerDetails.getUsername() : null)
+        );
 
         return detailsView;
     }
@@ -108,16 +110,27 @@ public class OfferService {
         offerRepository.deleteById(offerId);
     }
 
-    private Boolean isOwner(Long offerSellerId, String viewerUsername) {
-        if (Objects.equals(viewerUsername, "")) {
+    public Boolean isOwner(String offerId, String username) {
+        return isOwner(offerRepository.findById(offerId).orElse(null), username);
+    }
+
+    private boolean isOwner(OfferEntity offerEntity, String username) {
+        if (offerEntity == null || username == null) {
+            // anonymous users own no offers
+            // missing offers are meaningless
             return false;
         }
 
-        UserEntity viewerUserEntity = userService.getByUsername(viewerUsername);
+        UserEntity viewerEntity = userService.getByUsername(username);
 
-        boolean isOwner = Objects.equals(offerSellerId, viewerUserEntity.getId());
+        if (isAdmin(viewerEntity)) {
+            // all admins own all offers
+            return true;
+        }
 
-        return isOwner || isAdmin(viewerUserEntity);
+        return Objects.equals(
+                offerEntity.getSeller().getId(),
+                viewerEntity.getId());
     }
 
     private Boolean isAdmin(UserEntity userEntity) {

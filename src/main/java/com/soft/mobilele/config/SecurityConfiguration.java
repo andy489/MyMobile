@@ -10,19 +10,20 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-// import org.springframework.security.web.context.DelegatingSecurityContextRepository;
 import org.springframework.security.web.context.DelegatingSecurityContextRepository;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
+@EnableMethodSecurity // for @PreAuthorize to work
 public class SecurityConfiguration {
 
     private final String rememberMeKey;
@@ -51,15 +52,24 @@ public class SecurityConfiguration {
                 // defines which pages will be authorized
                 .authorizeHttpRequests((auth) -> {
                     auth
-                            // allow access to all static locations defined in StaticResourceLocation enum class (images, css, js, webjars, etc.)
+                            // allow access to all static locations defined in StaticResourceLocation enum class
+                            // (images, css, js, webjars, etc.)
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                             // allow actuator endpoints
                             .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                             .requestMatchers("/test/**").permitAll()
                             // the URLs below are available for all users - logged in and anonymous
-                            .requestMatchers("/", "/index", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
+                            .requestMatchers(
+                                    "/",
+                                    "/index",
+                                    "/users/login",
+                                    "/users/register",
+                                    "/users/registration-success",
+                                    "/users/login-error",
+                                    "/error").permitAll()
                             // the URLs below are available only for moderators or admins
-                            .requestMatchers("/pages/moderators").hasAnyRole(UserRoleEnum.MODERATOR.name(), UserRoleEnum.ADMIN.name())
+                            .requestMatchers("/pages/moderators").hasAnyRole(UserRoleEnum.MODERATOR.name(),
+                                    UserRoleEnum.ADMIN.name())
                             // the URLs below are available only for admins
                             .requestMatchers("/pages/admins").hasRole(UserRoleEnum.ADMIN.name())
                             .requestMatchers("/brands/**").permitAll()
@@ -76,7 +86,8 @@ public class SecurityConfiguration {
                             .loginPage("/users/login")
                             .loginProcessingUrl("/users/login")
                             .failureForwardUrl("/users/login-error")
-                            // where do we go after login (use true argument if you want to go there, otherwise go to previous page)
+                            // where do we go after login (use true argument if you want to go there,
+                            // otherwise go to previous page)
                             .defaultSuccessUrl("/" /*,true*/) // arg alwaysUse: true
                             // the names of the "username" and "password" input fields in the custom login form
                             .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)

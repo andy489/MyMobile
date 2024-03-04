@@ -47,8 +47,8 @@ class UserRegistrationControllerMockBean_IT {
     // @MockBean to mock an object that is present in the Spring application context.
     // It takes care of replacing the bean with what we want to simulate in our test.
     // When we communicate with external server like cloudinary, smtp server or etc.
-//    @MockBean
-//    private MailService mockMailService;
+    // @MockBean
+    // private MailService mockMailService;
 
     @Value("${mail.port}")
     private Integer port;
@@ -65,11 +65,11 @@ class UserRegistrationControllerMockBean_IT {
     @Mock
     private UserDetailsService mockUserDetailsService;
 
-    @MockBean
-    private UserRoleService mockUserRoleService;
+     @MockBean
+     private UserRoleService mockUserRoleService;
 
-//    @Captor
-//    ArgumentCaptor<String> activationToken;
+    // @Captor
+    // ArgumentCaptor<String> activationToken;
 
     @BeforeEach
     void setUp() {
@@ -97,12 +97,12 @@ class UserRegistrationControllerMockBean_IT {
 
     @Test
     void testUserRegistration() throws Exception {
-
+        // arrange
         final MultiValueMap<String, String> keyValueParams = new LinkedMultiValueMap<>();
         keyValueParams.add("username", "anna");
         keyValueParams.add("email", "anna@example.com");
         keyValueParams.add("firstName", "Anna");
-        keyValueParams.add("lastName", "Viktoria");
+        keyValueParams.add("lastName", "Petrova");
         keyValueParams.add("password", "top-secret");
         keyValueParams.add("confirmPassword", "top-secret");
 
@@ -116,25 +116,30 @@ class UserRegistrationControllerMockBean_IT {
 
         when(mockUserDetailsService.loadUserByUsername("anna"))
                 .thenReturn(currUserDetails);
+        // EO: arrange
 
+        // act
         mockMvc.perform(post("/users/register")
                         .params(keyValueParams)
                         .with(csrf())
                         .cookie(new Cookie("lang", Locale.GERMAN.getLanguage()))
                 )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/"));
+                .andExpect(view().name("redirect:registration-success"))
+                .andExpect(redirectedUrl("registration-success"));
 
         greenMail.waitForIncomingEmail(1);
         MimeMessage[] receivedMessages = greenMail.getReceivedMessages();
+        // EO: act
 
+        // asser
         assertEquals(1, receivedMessages.length);
         MimeMessage registrationMessage = receivedMessages[0];
 
-        assertTrue(registrationMessage.getContent().toString().contains("Anna Viktoria"));
+        assertTrue(registrationMessage.getContent().toString().contains("Anna Petrova"));
         assertEquals(1, registrationMessage.getAllRecipients().length);
         assertEquals("anna@example.com", registrationMessage.getAllRecipients()[0].toString());
+        // EO: assert
 
 //        verify(mockMailService).sendRegistrationEmail(
 //                eq("anna@example.com"),

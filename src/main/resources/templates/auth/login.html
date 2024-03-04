@@ -3,7 +3,7 @@
 
 <head th:replace="~{fragments/commons::head}"></head>
 
-<body>
+<body class="body-auth">
 
 <div>
     <header th:replace="~{fragments/commons::navigation}"></header>
@@ -52,9 +52,7 @@
         </div>
 
         <div class="w-100 button-holder d-flex ">
-            <input type="submit"
-                   class="w-100 btn btn-info btn-lg"
-                   th:value="#{login_btn}"/>
+            <input type="submit" class="w-100 btn btn-info btn-lg font-weight-bold" th:value="#{login_btn}"/>
         </div>
 
     </form>

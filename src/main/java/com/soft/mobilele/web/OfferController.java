@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -100,14 +101,16 @@ public class OfferController extends GenericController {
     public ModelAndView offerDetails(@PathVariable("id") String offerId, ModelAndView modelAndView,
                                      @AuthenticationPrincipal MobileleUserDetails viewer) {
 
-        modelAndView.addObject("offerDetails",
-                offerService.getOfferDetails(offerId, viewer == null ? "" : viewer.getUsername()));
+        modelAndView.addObject("offerDetails", offerService.getOfferDetails(offerId, viewer));
 
         return super.view("details", modelAndView);
     }
 
+
+    @PreAuthorize("@offerService.isOwner(#offerId, #principal.username)")
     @DeleteMapping("/{id}")
-    public ModelAndView delete(@PathVariable("id") String offerId) {
+    public ModelAndView delete(@PathVariable("id") String offerId,
+                               @AuthenticationPrincipal MobileleUserDetails principal) {
 
         offerService.deleteOffer(offerId);
 

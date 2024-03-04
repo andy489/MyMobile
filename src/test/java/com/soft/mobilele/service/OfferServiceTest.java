@@ -10,6 +10,7 @@ import com.soft.mobilele.model.enumerated.CategoryEnum;
 import com.soft.mobilele.model.enumerated.EngineEnum;
 import com.soft.mobilele.model.enumerated.TransmissionEnum;
 import com.soft.mobilele.model.enumerated.UserRoleEnum;
+import com.soft.mobilele.model.user.MobileleUserDetails;
 import com.soft.mobilele.model.view.OfferDetailsView;
 import com.soft.mobilele.repository.OfferRepository;
 import org.junit.jupiter.api.Test;
@@ -92,7 +93,10 @@ class OfferServiceTest {
                 .setCreated(dateProvider())
                 .setModified(dateProvider().plusDays(3));
 
-        final OfferDetailsView testOfferDetailsView = (OfferDetailsView) new OfferDetailsView()
+        final MobileleUserDetails mobileleUserDetails= new MobileleUserDetails()
+                .setUsername(testSeller.getUsername());
+
+        final OfferDetailsView testOfferDetailsView = new OfferDetailsView()
                 .setSellerFirstName(testOfferEntity.getSeller().getFirstName())
                 .setSellerLastName(testOfferEntity.getSeller().getLastName())
                 .setDescription(testOfferEntity.getDescription())
@@ -113,7 +117,7 @@ class OfferServiceTest {
         // EO: arrange
 
         // act
-        OfferDetailsView offerDetailsView = toTest.getOfferDetails(testUUID, testSeller.getUsername());
+        OfferDetailsView offerDetailsView = toTest.getOfferDetails(testUUID, mobileleUserDetails);
         // EO: act
 
         // assert

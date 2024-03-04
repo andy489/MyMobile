@@ -82,6 +82,11 @@ public class UserRegistrationController extends GenericController {
             securityContextRepository.saveContext(context, request, response);
         });
 
-        return super.redirect("/");
+        return super.redirect("registration-success");
+    }
+
+    @GetMapping("/registration-success")
+    public ModelAndView registrationSuccess(){
+        return super.view("auth/registration-success");
     }
 }

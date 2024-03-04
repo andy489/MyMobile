@@ -1,5 +1,16 @@
+.body-main{
+    background-image: url('/images/background-default-3.jpg');
+}
+
+.body-error{
+    background-image: url('/images/background-error-1.jpg');
+}
+
+.body-auth{
+    background-image: url('/images/background-default-2.jpg');
+}
+
 body {
-    background-image: url('/images/1.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;

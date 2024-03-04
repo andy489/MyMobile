@@ -81,15 +81,18 @@ public class UserService {
         appEventPublisher.publishEvent(userRegisteredEvent);
 
         // auto-login
-        UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
+        boolean autoLogin = false;
+        if(autoLogin) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                userDetails, // principal
-                userDetails.getPassword(),
-                userDetails.getAuthorities()
-        );
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, // principal
+                    userDetails.getPassword(),
+                    userDetails.getAuthorities()
+            );
 
-        successfulLoginProcessor.accept(authentication);
+            successfulLoginProcessor.accept(authentication);
+        }
     }
 
 
