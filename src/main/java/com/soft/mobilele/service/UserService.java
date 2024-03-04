@@ -93,6 +93,11 @@ public class UserService {
     }
 
 
+    public UserEntity getByUsername(String username) {
+
+        return userRepository.findByUsername(username).orElseThrow(() -> new NoSuchElementException("User not found"));
+    }
+
     public UserEntity getByEmail(String email) {
 
         return userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found"));

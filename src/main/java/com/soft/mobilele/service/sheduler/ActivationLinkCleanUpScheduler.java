@@ -25,7 +25,7 @@ public class ActivationLinkCleanUpScheduler {
 
 
     //    @Scheduled(cron = "*/10 * * * * *") // every 10 seconds
-    @Scheduled(fixedRate = 10_000, initialDelay = 10_000) // every 10 seconds
+    @Scheduled(fixedRate = 100_000, initialDelay = 100_000) // every 100 seconds
     public void cleanUp() {
 
         LOGGER.info("Trigger cleanup of activation links. " + LocalDateTime.now().format(dateTimeFormatter));

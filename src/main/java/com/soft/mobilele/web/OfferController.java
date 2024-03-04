@@ -60,7 +60,7 @@ public class OfferController extends GenericController {
             @Valid @ModelAttribute(name = "offerAddModel") OfferAddDto offerAddDTO,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
-            @AuthenticationPrincipal MobileleUserDetails userDetails) {
+            @AuthenticationPrincipal MobileleUserDetails owner) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerAddModel", offerAddDTO);
@@ -69,7 +69,7 @@ public class OfferController extends GenericController {
             return super.redirect("/offers/add");
         }
 
-        offerService.addOffer(offerAddDTO, userDetails.getEmail());
+        offerService.addOffer(offerAddDTO, owner.getUsername());
 
         return super.redirect("/offers");
     }
@@ -81,7 +81,7 @@ public class OfferController extends GenericController {
             ModelAndView modelAndView,
             @PageableDefault(page = 0, size = 10, sort = "price", direction = Sort.Direction.ASC)
             Pageable pageRequest) {
-        
+
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("offerSearchModel", offerSearchDTO);
             modelAndView.addObject(BINDING_RESULT_PATH + "offerSearchModel", bindingResult);
@@ -97,15 +97,17 @@ public class OfferController extends GenericController {
     }
 
     @GetMapping("/{id}/details")
-    public ModelAndView offerDetails(@PathVariable("id") String offerId, ModelAndView modelAndView) {
+    public ModelAndView offerDetails(@PathVariable("id") String offerId, ModelAndView modelAndView,
+                                     @AuthenticationPrincipal MobileleUserDetails viewer) {
 
-        modelAndView.addObject("offerDetails", offerService.getOfferDetails(offerId));
+        modelAndView.addObject("offerDetails",
+                offerService.getOfferDetails(offerId, viewer == null ? "" : viewer.getUsername()));
 
         return super.view("details", modelAndView);
     }
 
     @DeleteMapping("/{id}")
-    public ModelAndView delete(@PathVariable("id") String offerId){
+    public ModelAndView delete(@PathVariable("id") String offerId) {
 
         offerService.deleteOffer(offerId);
 

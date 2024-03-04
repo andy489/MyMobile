@@ -4,6 +4,7 @@ import com.soft.mobilele.model.entity.ModelEntity;
 import com.soft.mobilele.repository.ModelRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -14,7 +15,7 @@ public class ModelService {
         this.modelRepository = modelRepository;
     }
 
-    public Optional<ModelEntity> getById(Long modelId) {
-        return modelRepository.findById(modelId);
+    public ModelEntity getById(Long modelId) {
+        return modelRepository.findById(modelId).orElseThrow(() -> new NoSuchElementException("No such model"));
     }
 }

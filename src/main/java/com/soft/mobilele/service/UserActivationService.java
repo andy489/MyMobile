@@ -3,7 +3,6 @@ package com.soft.mobilele.service;
 import com.soft.mobilele.model.entity.UserActivationTokenEntity;
 import com.soft.mobilele.model.event.UserRegisteredEvent;
 import com.soft.mobilele.repository.UserActivationTokenRepository;
-import com.soft.mobilele.repository.UserRepository;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 

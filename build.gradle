@@ -70,6 +70,9 @@ dependencies {
     testImplementation 'com.icegreen:greenmail:2.0.0'
 
     testRuntimeOnly 'org.hsqldb:hsqldb'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
 }
 
 

@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -61,10 +62,12 @@ public class OfferDetailsView {
 
     private Boolean bluetooth;
 
+    private Boolean viewerIsOwner;
+
     public String getSellerFullName() {
         StringBuilder sb = new StringBuilder();
 
-        if (sellerFirstName != null) {
+        if (!Objects.equals(sellerFirstName, "")) {
             sb.append(sellerFirstName);
         }
 

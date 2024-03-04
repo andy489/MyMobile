@@ -6,9 +6,12 @@ import com.soft.mobilele.model.dto.OfferSearchDto;
 import com.soft.mobilele.model.entity.ModelEntity;
 import com.soft.mobilele.model.entity.OfferEntity;
 import com.soft.mobilele.model.entity.UserEntity;
+import com.soft.mobilele.model.entity.UserRoleEntity;
+import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.model.view.OfferDetailsView;
 import com.soft.mobilele.repository.OfferRepository;
 import com.soft.mobilele.repository.OfferSpecification;
+import com.soft.mobilele.service.monitoring.OffersSearchMonitoringService;
 import jakarta.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,28 +37,31 @@ public class OfferService {
 
     private final BrandService brandService;
 
+    OffersSearchMonitoringService offersSearchMonitoringService;
+
     @Autowired
     public OfferService(
             OfferRepository offerRepository,
             MapStructMapper mapper,
             UserService userService,
             ModelService modelService,
-            BrandService brandService) {
+            BrandService brandService,
+            OffersSearchMonitoringService offersSearchMonitoringService) {
 
         this.offerRepository = offerRepository;
         this.mapper = mapper;
         this.userService = userService;
         this.modelService = modelService;
         this.brandService = brandService;
+        this.offersSearchMonitoringService = offersSearchMonitoringService;
     }
 
-    public void addOffer(OfferAddDto offerAddDto, String email) {
+    public void addOffer(OfferAddDto offerAddDto, String username) {
 
         OfferEntity offerEntity = mapper.toEntity(offerAddDto);
 
-        UserEntity userEntity = userService.getByEmail(email);
-        ModelEntity modelEntity = modelService.getById(offerAddDto.getModelId())
-                .orElseThrow(() -> new NoSuchElementException("No such model (addOffer)"));
+        UserEntity userEntity = userService.getByUsername(username);
+        ModelEntity modelEntity = modelService.getById(offerAddDto.getModelId());
 
         offerEntity.setModel(modelEntity);
         offerEntity.setSeller(userEntity);
@@ -64,6 +70,8 @@ public class OfferService {
     }
 
     public Page<OfferDetailsView> getOffers(OfferSearchDto offerSearchDto, Pageable pageRequest) {
+
+        offersSearchMonitoringService.logOffersSearch();
 
         int pageSize = offerSearchDto.getSize() == null ?
                 pageRequest.getPageSize() : offerSearchDto.getSize();
@@ -83,17 +91,38 @@ public class OfferService {
                 .map(mapper::toDetailsView);
     }
 
-    public OfferDetailsView getOfferDetails(String offerId) {
+    public OfferDetailsView getOfferDetails(String offerId, String viewerUsername) {
 
         OfferEntity offerEntity = offerRepository.findById(offerId)
                 .orElseThrow(() -> new NoSuchElementException("Offer with id=" + offerId + " not found!"));
 
-        return mapper.toDetailsView(offerEntity);
+        OfferDetailsView detailsView = mapper.toDetailsView(offerEntity);
+        detailsView.setViewerIsOwner(isOwner(offerEntity.getSeller().getId(), viewerUsername));
+
+        return detailsView;
     }
 
     @Transactional
-    public void deleteOffer(String offerId){
+    public void deleteOffer(String offerId) {
 
         offerRepository.deleteById(offerId);
+    }
+
+    private Boolean isOwner(Long offerSellerId, String viewerUsername) {
+        if (Objects.equals(viewerUsername, "")) {
+            return false;
+        }
+
+        UserEntity viewerUserEntity = userService.getByUsername(viewerUsername);
+
+        boolean isOwner = Objects.equals(offerSellerId, viewerUserEntity.getId());
+
+        return isOwner || isAdmin(viewerUserEntity);
+    }
+
+    private Boolean isAdmin(UserEntity userEntity) {
+        return userEntity.getUserRoles().stream()
+                .map(UserRoleEntity::getUserRoleEnum)
+                .anyMatch(r -> UserRoleEnum.ADMIN == r);
     }
 }

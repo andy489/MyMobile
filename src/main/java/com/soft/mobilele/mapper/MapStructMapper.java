@@ -40,6 +40,7 @@ public interface MapStructMapper {
     @Mapping(source = "model.brand.name", target = "brand")
     @Mapping(source = "seller.firstName", target = "sellerFirstName")
     @Mapping(source = "seller.lastName", target = "sellerLastName")
+    @Mapping(target = "viewerIsOwner", ignore = true)
     OfferDetailsView toDetailsView(OfferEntity offerEntity);
 
     @Mapping(target = "authorities", ignore = true)

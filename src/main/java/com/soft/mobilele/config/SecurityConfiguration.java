@@ -5,6 +5,7 @@ import com.soft.mobilele.model.enumerated.UserRoleEnum;
 import com.soft.mobilele.repository.UserRepository;
 import com.soft.mobilele.service.MobileleUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,20 +34,8 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder encode() {
 
-//        final String SALT = "pepper";
-//        final int ITERATIONS = (int) 2e5;
-//        final int SALT_LENGTH = 0;
-
-//        return new Pbkdf2PasswordEncoder(
-//                SALT,
-//                SALT_LENGTH,
-//                ITERATIONS,
-//                Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA256
-//        );
-
-
-//        return NoOpPasswordEncoder.getInstance();
-//        return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        // return NoOpPasswordEncoder.getInstance();
+        // return Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         return new BCryptPasswordEncoder();
     }
 
@@ -64,6 +53,9 @@ public class SecurityConfiguration {
                     auth
                             // allow access to all static locations defined in StaticResourceLocation enum class (images, css, js, webjars, etc.)
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                            // allow actuator endpoints
+                            .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                            .requestMatchers("/test/**").permitAll()
                             // the URLs below are available for all users - logged in and anonymous
                             .requestMatchers("/", "/index", "/users/login", "/users/register", "/users/login-error", "/error").permitAll()
                             // the URLs below are available only for moderators or admins

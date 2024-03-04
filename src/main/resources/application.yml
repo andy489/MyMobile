@@ -69,3 +69,13 @@ open.exchange.rates:
   symbols: BGN,EUR,GBP
   decimal-precision: 3
   enabled: true
+
+# actuator configuration
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"

@@ -109,10 +109,11 @@ class OfferServiceTest {
         // arrange
         when(mockOfferRepository.findById(testUUID)).thenReturn(Optional.of(testOfferEntity));
         when(mockMapper.toDetailsView(testOfferEntity)).thenReturn(testOfferDetailsView);
+        when(mockUserService.getByUsername(testSeller.getUsername())).thenReturn(testSeller);
         // EO: arrange
 
         // act
-        OfferDetailsView offerDetailsView = toTest.getOfferDetails(testUUID);
+        OfferDetailsView offerDetailsView = toTest.getOfferDetails(testUUID, testSeller.getUsername());
         // EO: act
 
         // assert

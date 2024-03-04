@@ -76,20 +76,26 @@
 
             <hr/>
 
-            <div class="card-body" sec:authorize="isAuthenticated()">
-
-<!--                <a class="card-link btn-primary rounded p-2 font-weight-bold" href="/"-->
-<!--                   th:text="#{offers_details_upd}">{Update}</a>-->
+            <div class="card-body" th:if="*{getViewerIsOwner()}">
 
                 <form th:method="delete"
                       th:action="@{/offers/{offerId}(offerId=*{id})}">
 
                     <button class="card-link btn-primary rounded p-2 font-weight-bold"
-                       th:text="#{offers_details_del}">{Delete}</button>
-
+                            th:text="#{offers_details_del}">{Delete}
+                    </button>
                 </form>
-
             </div>
+
+            <div class="card-body" th:unless="*{getViewerIsOwner()}">
+
+                <form>
+                    <button type="button" class="btn btn-secondary font-weight-bold disabled"
+                            th:text="#{offers_details_del}">{Delete}
+                    </button>
+                </form>
+            </div>
+
         </div>
 
 
