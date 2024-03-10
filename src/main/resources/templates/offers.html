@@ -52,7 +52,7 @@
                                 class="form-control w-100"
                                 type="select">
                             <option value="" th:text="#{offers_engine_type}">{- Select engine -}</option>
-                            <option th:each="e : ${T(com.soft.mobilele.model.enumerated.EngineEnum).values()}"
+                            <option th:each="e : ${T(com.mobilele.model.enumerated.EngineEnum).values()}"
                                     th:text="${e}"
                                     th:value="${e}">
                                 {Engine type}
@@ -66,7 +66,7 @@
                                 type="select">
                             <option value="" th:text="#{offers_transmission_type}">{- Select transmission -}
                             </option>
-                            <option th:each="t : ${T(com.soft.mobilele.model.enumerated.TransmissionEnum).values()}"
+                            <option th:each="t : ${T(com.mobilele.model.enumerated.TransmissionEnum).values()}"
                                     th:text="${t}"
                                     th:value="${t}">
                                 {Transmission type}
@@ -237,7 +237,7 @@
                             th:errorclass="is-invalid"
                             class="form-control btn-secondary ml-2">
                         <option value="" th:text="#{search_per_page}">{- Sort by -}</option>
-                        <option th:each="s : ${T(com.soft.mobilele.model.enumerated.PerPage).values()}"
+                        <option th:each="s : ${T(com.mobilele.model.enumerated.PerPage).values()}"
                                 th:text="${s.getSz()}"
                                 th:value="${s.getSz()}">
                             {Vehicles per page}
@@ -257,7 +257,7 @@
                             th:errorclass="is-invalid"
                             class="form-control btn-secondary ml-5 mr-2">
                         <option value="" th:text="#{search_sort_by}">{- Sort by -}</option>
-                        <option th:each="s : ${T(com.soft.mobilele.model.enumerated.SortBy).values()}"
+                        <option th:each="s : ${T(com.mobilele.model.enumerated.SortBy).values()}"
                                 th:text="${s.getDisplayName()}"
                                 th:value="${s}">
                             {Sort by criteria}
@@ -268,7 +268,7 @@
                             th:errorclass="is-invalid"
                             class="form-control btn-secondary">
                         <option value="" th:text="#{search_sort_type}">{- ASC/DESC -}</option>
-                        <option th:each="s : ${T(com.soft.mobilele.model.enumerated.SortDirection).values()}"
+                        <option th:each="s : ${T(com.mobilele.model.enumerated.SortDirection).values()}"
                                 th:text="${s}"
                                 th:value="${s}">
                             {Sort by criteria}
