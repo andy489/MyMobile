@@ -70,6 +70,10 @@ open.exchange.rates:
   decimal-precision: 3
   enabled: true
 
+google.recaptcha:
+  site: ${RECAPTCHA_SITE_KEY}
+  secret: ${RECAPTCHA_SITE_SECRET}
+
 # actuator configuration
 management:
   server:

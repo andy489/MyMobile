@@ -14,8 +14,9 @@
     <h2 class="text-center text-white"
         th:text="#{reg_title}">{Registration}</h2>
 
-<!--    Registration form-->
-    <form th:method="post"
+    <!--    Registration form-->
+    <form id="registration-form"
+          th:method="post"
           th:action="@{/users/register}"
           th:object="${userRegistrationModel}"
           class="main-form mx-auto col-md-7 d-flex flex-column justify-content-center">
@@ -113,10 +114,25 @@
         </div>
 
         <div class="w-100 button-holder d-flex ">
-            <input type="submit" class="w-100 btn btn-info btn-lg font-weight-bold" th:value="#{reg_btn}"/>
+            <!-- <input type="submit" class="w-100 btn btn-info btn-lg font-weight-bold" th:value="#{reg_btn}"/> -->
+
+            <button class="g-recaptcha w-100 btn btn-info btn-lg font-weight-bold"
+                    th:attr="data-sitekey=${@reCaptchaConfig.getSite()}"
+                    data-callback='onSubmit'
+                    data-action='submit'
+                    th:text="#{reg_btn}">{Submit}</button>
         </div>
     </form>
 </div>
+
+<!-- ReCaptcha -->
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    function onSubmit(token) {
+        document.getElementById("registration-form").submit();
+    }
+</script>
+<!-- EO:ReCaptcha -->
 
 <footer th:replace="~{fragments/commons::footer}"></footer>
 

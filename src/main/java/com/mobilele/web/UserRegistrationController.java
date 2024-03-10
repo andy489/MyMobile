@@ -1,7 +1,9 @@
 package com.mobilele.web;
 
+import com.mobilele.model.dto.ReCaptchaResponseDto;
 import com.mobilele.model.dto.UserRegistrationDto;
 import com.mobilele.service.UserService;
+import com.mobilele.service.recapthca.ReCaptchaService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -32,13 +37,17 @@ public class UserRegistrationController extends GenericController {
 
     private final LocaleResolver localeResolver;
 
+    private final ReCaptchaService reCaptchaService;
+
     @Autowired
     public UserRegistrationController(UserService userService,
                                       SecurityContextRepository securityContextRepository,
-                                      LocaleResolver localeResolver) {
+                                      LocaleResolver localeResolver,
+                                      ReCaptchaService reCaptchaService) {
         this.userService = userService;
         this.securityContextRepository = securityContextRepository;
         this.localeResolver = localeResolver;
+        this.reCaptchaService = reCaptchaService;
     }
 
     @ModelAttribute("userRegistrationModel")
@@ -59,7 +68,16 @@ public class UserRegistrationController extends GenericController {
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes,
             HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response,
+            @RequestParam("g-recaptcha-response") String reCaptchaResponse) {
+
+        boolean isBot = reCaptchaService.verify(reCaptchaResponse)
+                .map(ReCaptchaResponseDto::isSuccess)
+                .orElse(false);
+
+        if (isBot) {
+            return super.redirect("/");
+        }
 
         if (bindingResult.hasErrors()) {
 
@@ -86,7 +104,7 @@ public class UserRegistrationController extends GenericController {
     }
 
     @GetMapping("/registration-success")
-    public ModelAndView registrationSuccess(){
+    public ModelAndView registrationSuccess() {
         return super.view("auth/registration-success");
     }
 }
