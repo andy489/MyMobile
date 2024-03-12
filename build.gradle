@@ -55,30 +55,21 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
-
-    compileOnly 'org.projectlombok:lombok'
-
-    runtimeOnly 'com.mysql:mysql-connector-j'
-
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-    annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'com.icegreen:greenmail:2.0.0'
-
-    testRuntimeOnly 'org.hsqldb:hsqldb'
-
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'org.springframework:spring-aop'
-
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'com.icegreen:greenmail:2.0.0'
+    testRuntimeOnly 'org.hsqldb:hsqldb'
 }
-
 
 tasks.named('test') {
     useJUnitPlatform()
