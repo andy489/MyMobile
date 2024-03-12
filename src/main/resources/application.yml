@@ -2,6 +2,8 @@ server:
   error:
     include-stacktrace: ON_PARAM
 spring:
+  application:
+    name: MyMobile
   security:
     user:
       name: ${SEC_USER:test}c
@@ -50,7 +52,7 @@ mail:
   username: ${MAIL_HOG_USER:mobilele@mobilele.com}
   password: ${MAIL_HOG_PASS:1234}
 
-mobilele:
+my-mobile:
   remember-me-key: ${REMEMBER_ME_KEY:topsecret}
 
 # https://openexchangerates.org/account/app-ids
