@@ -7,6 +7,7 @@
 
 <div>
     <header th:replace="~{fragments/commons::navigation}"></header>
+    <script src="https://kit.fontawesome.com/a9012fd1ea.js" crossorigin="anonymous"></script>
 </div>
 
 <div class="container w-50">
@@ -51,11 +52,20 @@
             </label>
         </div>
 
-        <div class="w-100 button-holder d-flex ">
+        <div class="w-100 button-holder d-flex mb-3">
             <input type="submit" class="w-100 btn btn-info btn-lg font-weight-bold" th:value="#{login_btn}"/>
         </div>
 
+        <div class="w-100 button-holder d-flex">
+            <a class="btn btn-block btn-outline-primary"
+               th:href="@{/oauth2/authorization/github}">
+                <i class="fa-brands fa-github"></i>
+                Login via Github
+            </a>
+        </div>
     </form>
+
+
 </div>
 
 <footer th:replace="~{fragments/commons::footer}"></footer>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @Service
@@ -42,6 +45,8 @@ public class UserService {
 
     private final ApplicationEventPublisher appEventPublisher;
 
+    private MobileleUserDetailsService mobileleUserDetailsService;
+
     @Autowired
     public UserService(
             UserRepository userRepository,
@@ -59,6 +64,8 @@ public class UserService {
         this.userRoleService = userRoleService;
         this.mailService = mailService;
         this.appEventPublisher = appEventPublisher;
+
+        mobileleUserDetailsService = new MobileleUserDetailsService(userRepository, mapper);
     }
 
     public void registerAndLogin(UserRegistrationDto userRegistrationDto,
@@ -79,7 +86,7 @@ public class UserService {
 
         // auto-login
         boolean autoLogin = false;
-        if(autoLogin) {
+        if (autoLogin) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -107,4 +114,39 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("No such user (getById)"));
     }
+
+    public void createUserIfNotExist(String username, String email, String firstName, String lastName) {
+        // Create manually a user in the database
+        // password not necessary (random uuid)
+        // make user change his password on first login
+
+        Optional<UserEntity> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            UserEntity userEntity = new UserEntity()
+                    .setUsername(username)
+                    .setEmail(email)
+                    .setPassword(UUID.randomUUID().toString())
+                    .setFirstName(firstName)
+                    .setLastName(lastName)
+                    .setIsActive(true);
+
+            userRepository.save(userEntity);
+        }
+    }
+
+
+    public Authentication login(String username) {
+        UserDetails userDetails = mobileleUserDetailsService.loadUserByUsername(username);
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                userDetails.getPassword(),
+                userDetails.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        return auth;
+    }
+
 }

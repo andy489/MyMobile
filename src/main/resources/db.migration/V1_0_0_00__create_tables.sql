@@ -1,5 +1,5 @@
-# CREATE SCHEMA IF NOT EXISTS `mobilele`;
-USE `mobilele`;
+# CREATE SCHEMA IF NOT EXISTS `mymobile`;
+USE `mymobile`;
 
 CREATE TABLE `users`
 (

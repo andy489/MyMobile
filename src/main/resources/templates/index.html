@@ -14,9 +14,9 @@
 <div class="container-fluid">
     <h5 class="text-center text-white mt-5">
         <span th:text="#{index_welcome}">{Welcome to Mobilele, }</span>
-        <span sec:authorize="isAuthenticated()"
-              th:text="${#authentication.principal.fullName}">
-        </span>
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block sec:authentication="name"></th:block>
+        </th:block>
 
         <span sec:authorize="!isAuthenticated()" th:text="#{index_anonymous}">
             {Anonymous}

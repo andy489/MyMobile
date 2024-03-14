@@ -8,9 +8,16 @@ spring:
     user:
       name: ${SEC_USER:test}c
       password: ${SEC_PASS:1234}
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${OAUTH2_GITHUB_CLIENT_ID:}
+            client-secret: ${OAUTH2_GITHUB_SECRET:}
+            scope: user:username
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/mobilele?createDatabaseIfNotExist=yes&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/mymobile?createDatabaseIfNotExist=yes&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASS:root}
   jpa:
@@ -26,7 +33,7 @@ spring:
       mode: never
   flyway:
     enabled: true
-    schemas: mobilele
+    schemas: mymobile
     user: ${MYSQL_USER:root}
     password: ${MYSQL_PASS:root}
     locations: classpath:db.migration
@@ -35,7 +42,6 @@ spring:
     hidden-method:
       filter:
         enabled: true
-
 #logging:
 #  level:
 #    org.springframework: DEBUG
@@ -46,10 +52,10 @@ spring:
 # $ mailhog
 # localhost:8025
 mail:
-  app-mail: "mobilele@mobilele.com"
-  host: "localhost"
+  app-mail: mymobile@mymobile.com
+  host: localhost
   port: 1025
-  username: ${MAIL_HOG_USER:mobilele@mobilele.com}
+  username: ${MAIL_HOG_USER:mymobile@mymobile.com}
   password: ${MAIL_HOG_PASS:1234}
 
 my-mobile:

@@ -4,6 +4,7 @@ import com.mymobile.mapper.MapStructMapper;
 import com.mymobile.model.enumerated.UserRoleEnum;
 import com.mymobile.repository.UserRepository;
 import com.mymobile.service.MobileleUserDetailsService;
+import com.mymobile.service.oauth.OAuthSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -29,6 +30,7 @@ public class SecurityConfiguration {
     private final String rememberMeKey;
 
     public SecurityConfiguration(@Value("${my-mobile.remember-me-key}") String rememberMeKey) {
+
         this.rememberMeKey = rememberMeKey;
     }
 
@@ -46,7 +48,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity,
+                                           OAuthSuccessHandler oAuthSuccessHandler) throws Exception {
 
         return httpSecurity // .csrf(AbstractHttpConfigurer::disable)
                 // defines which pages will be authorized
@@ -117,6 +120,9 @@ public class SecurityConfiguration {
                 })
                 .securityContext(context -> {
                     context.securityContextRepository(securityContextRepository());
+                })
+                .oauth2Login(oauth -> {
+                    oauth.successHandler(oAuthSuccessHandler);
                 })
                 .build();
     }
