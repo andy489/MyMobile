@@ -69,7 +69,7 @@ public class UserRegistrationController extends GenericController {
             HttpServletResponse response,
             @RequestParam("g-recaptcha-response") String reCaptchaResponse) {
 
-        boolean isBot = reCaptchaService.verify(reCaptchaResponse)
+        boolean isBot = !reCaptchaService.verify(reCaptchaResponse)
                 .map(ReCaptchaResponseDto::isSuccess)
                 .orElse(false);
 

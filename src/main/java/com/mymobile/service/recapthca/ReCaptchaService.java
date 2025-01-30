@@ -27,7 +27,7 @@ public class ReCaptchaService {
     }
 
     public Optional<ReCaptchaResponseDto> verify(String token) {
-        return Optional.ofNullable(webClient.post()
+        Optional<ReCaptchaResponseDto> v = Optional.ofNullable(webClient.post()
                 .uri(this::buildReCaptchaURI)
                 .body(BodyInserters
                         .fromFormData("secret", reCaptchaConfig.getSecret())
@@ -37,6 +37,8 @@ public class ReCaptchaService {
                 .doOnError(t -> LOGGER.error("Error fetching google response...", t))
                 .onErrorComplete()
                 .block());
+
+        return v;
     }
 
     private URI buildReCaptchaURI(UriBuilder uriBuilder) {

@@ -45,7 +45,7 @@ public class UserService {
 
     private final ApplicationEventPublisher appEventPublisher;
 
-    private MobileleUserDetailsService mobileleUserDetailsService;
+    private final MobileleUserDetailsService mobileleUserDetailsService;
 
     @Autowired
     public UserService(

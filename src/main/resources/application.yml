@@ -6,7 +6,7 @@ spring:
     name: MyMobile
   security:
     user:
-      name: ${SEC_USER:test}c
+      name: ${SEC_USER:test}
       password: ${SEC_PASS:1234}
     oauth2:
       client:
@@ -19,7 +19,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/mymobile?createDatabaseIfNotExist=yes&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
     username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASS:root}
+    password: ${MYSQL_PASS:}
   jpa:
     hibernate:
       ddl-auto: none
@@ -35,7 +35,7 @@ spring:
     enabled: true
     schemas: mymobile
     user: ${MYSQL_USER:root}
-    password: ${MYSQL_PASS:root}
+    password: ${MYSQL_PASS:}
     locations: classpath:db.migration
     baseline-on-migrate: true
   mvc:
