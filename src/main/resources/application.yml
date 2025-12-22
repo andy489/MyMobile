@@ -14,7 +14,7 @@ spring:
           github:
             client-id: ${OAUTH2_GITHUB_CLIENT_ID:}
             client-secret: ${OAUTH2_GITHUB_SECRET:}
-            scope: user:username
+            scope: read:user
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/mymobile?createDatabaseIfNotExist=yes&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8

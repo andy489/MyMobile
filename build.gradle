@@ -9,16 +9,18 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.1.5'
+    id 'checkstyle'
+    id 'org.springframework.boot' version '3.2.9'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.flywaydb.flyway" version "9.8.1"
+
 }
 
 flyway {
-    url = 'jdbc:mysql://localhost:3306/mobilele'
+    url = 'jdbc:mysql://localhost:3306/mymobile'
     user = 'root'
-    password = 'root'
-    schemas = ['mobilele']
+    password = ''
+    schemas = ['mymobile']
     locations = ['classpath:db/migration']
     cleanDisabled = false
 }
@@ -68,8 +70,10 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'com.icegreen:greenmail:2.0.0'
+    testImplementation 'com.icegreen:greenmail:2.0.1'
     testRuntimeOnly 'org.hsqldb:hsqldb'
+
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
 }
 
 tasks.named('test') {
