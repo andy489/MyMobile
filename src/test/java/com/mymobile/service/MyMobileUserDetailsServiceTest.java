@@ -26,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class) // Junit 5
-class MobileleUserDetailsServiceTest {
+@ExtendWith(MockitoExtension.class)
+class MyMobileUserDetailsServiceTest {
 
     @Mock
     private UserRepository mockUserRepo;
@@ -35,8 +35,6 @@ class MobileleUserDetailsServiceTest {
     @Mock
     private MapStructMapper mockMapper;
 
-    //    Uncomment below if you do not want to use setUp method
-//    @InjectMocks
     private MobileleUserDetailsService toTest;
 
     @BeforeEach
@@ -131,6 +129,4 @@ class MobileleUserDetailsServiceTest {
         assertThrows(UsernameNotFoundException.class, () -> toTest.loadUserByUsername("NON_EXISTENT_USERNAME"),
                 "Expected UsernameNotFoundException to be thrown");
     }
-
-
 }

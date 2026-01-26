@@ -2,9 +2,11 @@ package com.mymobile.web;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
+import com.mymobile.model.dto.ReCaptchaResponseDto;
 import com.mymobile.model.user.MobileleUserDetails;
 import com.mymobile.model.enumerated.UserRoleEnum;
 import com.mymobile.service.UserRoleService;
+import com.mymobile.service.recapthca.ReCaptchaService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,9 +26,11 @@ import org.springframework.util.MultiValueMap;
 import jakarta.mail.internet.MimeMessage;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -59,7 +63,7 @@ class UserUserRegistrationControllerGreenMailTest_IT {
     private UserDetailsService mockUserDetailsService;
 
     @MockBean
-    private UserRoleService mockUserRoleService;
+    private ReCaptchaService mockReCaptchaService;
 
     @BeforeEach
     void setUp() {
@@ -68,6 +72,15 @@ class UserUserRegistrationControllerGreenMailTest_IT {
         greenMail = new GreenMail(new ServerSetup(mailPort, mailHost, protocol));
         greenMail.start();
         greenMail.setUser(mailUsername, mailPassword);
+
+        // Mock reCAPTCHA verification
+        ReCaptchaResponseDto successfulResponse = new ReCaptchaResponseDto();
+        successfulResponse.setSuccess(true);
+        successfulResponse.setScore(0.9);
+        successfulResponse.setAction("register"); // Make sure this matches what your controller expects
+
+        when(mockReCaptchaService.verify(anyString()))
+                .thenReturn(Optional.of(successfulResponse));
     }
 
     @AfterEach
@@ -85,6 +98,7 @@ class UserUserRegistrationControllerGreenMailTest_IT {
         keyValueParams.add("lastName", "Petrova");
         keyValueParams.add("password", "top-secret");
         keyValueParams.add("confirmPassword", "top-secret");
+        keyValueParams.add("g-recaptcha-response", "test-recaptcha-token");
 
         final UserDetails currUserDetails = new MobileleUserDetails()
                 .setUsername("anna2")

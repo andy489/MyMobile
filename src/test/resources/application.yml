@@ -17,7 +17,17 @@
 #    oracle
 #    url:"jdbc:hsqldb:mem:testdb;sql.syntax_ora=true"
 
-mobilele:
+  # Add OAuth2 configuration for tests
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: test-client-id
+            client-secret: test-client-secret
+            scope: read:user
+
+my-mobile:
   remember-me-key: test
 
 mail:
@@ -36,3 +46,8 @@ open.exchange.rates:
   decimal-precision: 3
   enabled: false
 
+google:
+  recaptcha:
+    site: test-site-key
+    secret: test-secret-key
+    enabled: false

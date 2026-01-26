@@ -2,9 +2,11 @@ package com.mymobile.web;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
+import com.mymobile.model.dto.ReCaptchaResponseDto;
 import com.mymobile.model.user.MobileleUserDetails;
 import com.mymobile.service.UserRoleService;
 import com.mymobile.model.enumerated.UserRoleEnum;
+import com.mymobile.service.recapthca.ReCaptchaService;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
@@ -25,10 +27,13 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,12 +48,6 @@ class UserRegistrationControllerMockBeanTest_IT {
 
     @Autowired
     private MockMvc mockMvc;
-
-    // @MockBean to mock an object that is present in the Spring application context.
-    // It takes care of replacing the bean with what we want to simulate in our test.
-    // When we communicate with external server like cloudinary, smtp server or etc.
-    // @MockBean
-    // private MailService mockMailService;
 
     @Value("${mail.port}")
     private Integer port;
@@ -65,17 +64,22 @@ class UserRegistrationControllerMockBeanTest_IT {
     @Mock
     private UserDetailsService mockUserDetailsService;
 
-     @MockBean
-     private UserRoleService mockUserRoleService;
-
-    // @Captor
-    // ArgumentCaptor<String> activationToken;
+    @MockBean
+    private ReCaptchaService mockReCaptchaService;
 
     @BeforeEach
     void setUp() {
         greenMail = new GreenMail(new ServerSetup(port, host, "smtp"));
         greenMail.start();
         greenMail.setUser(username, password);
+
+        ReCaptchaResponseDto successfulResponse = mock(ReCaptchaResponseDto.class);
+        when(successfulResponse.isSuccess()).thenReturn(true);
+        when(successfulResponse.getScore()).thenReturn(0.9);
+        when(successfulResponse.getAction()).thenReturn("register");
+
+        when(mockReCaptchaService.verify(anyString()))
+                .thenReturn(Optional.of(successfulResponse));
     }
 
     @AfterEach
@@ -105,6 +109,7 @@ class UserRegistrationControllerMockBeanTest_IT {
         keyValueParams.add("lastName", "Petrova");
         keyValueParams.add("password", "top-secret");
         keyValueParams.add("confirmPassword", "top-secret");
+        keyValueParams.add("g-recaptcha-response", "test-recaptcha-response");
 
         final UserDetails currUserDetails = new MobileleUserDetails()
                 .setUsername("anna")
@@ -140,14 +145,5 @@ class UserRegistrationControllerMockBeanTest_IT {
         assertEquals(1, registrationMessage.getAllRecipients().length);
         assertEquals("anna@example.com", registrationMessage.getAllRecipients()[0].toString());
         // EO: assert
-
-//        verify(mockMailService).sendRegistrationEmail(
-//                eq("anna@example.com"),
-//                eq("Anna Viktoria"),
-//                eq(Locale.GERMAN),
-//                activationToken.capture());
-
-//        assertEquals(activationToken.getValue().length(), 20);
-
     }
 }

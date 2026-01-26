@@ -53,64 +53,42 @@ public class OfferControllerTest_IT {
         UserEntity seller = userTestDataUtil.createTestUser(TEST_USER1_USERNAME);
         OfferEntity offerEntity = offerTestDataUtil.createTestOffer(seller);
 
-        mockMvc.perform(
-                        delete("/offers/{id}", offerEntity.getId())
-                                .with(csrf())
-                )
+        mockMvc.perform(delete("/offers/{id}", offerEntity.getId()).with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/users/login"));
     }
 
     @Test
-    @WithMockUser(
-            username = TEST_USER1_USERNAME,
-            roles = {"USER"}
-    )
+    @WithMockUser(username = TEST_USER1_USERNAME)
     void testNonAdminUserOwnOffer() throws Exception {
         UserEntity seller = userTestDataUtil.createTestUser(TEST_USER1_USERNAME);
         OfferEntity offerEntity = offerTestDataUtil.createTestOffer(seller);
 
-        mockMvc.perform(
-                        delete("/offers/{id}", offerEntity.getId())
-                                .with(csrf())
-                )
+        mockMvc.perform(delete("/offers/{id}", offerEntity.getId()).with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/offers"));
     }
 
     @Test
-    @WithMockUser(
-            username = TEST_USER2_USERNAME,
-            roles = {"USER"}
-    )
+    @WithMockUser(username = TEST_USER2_USERNAME)
     void testNonAdminUserNotOwnOffer() throws Exception {
         UserEntity seller = userTestDataUtil.createTestUser(TEST_USER1_USERNAME);
         userTestDataUtil.createTestUser(TEST_USER2_USERNAME);
         OfferEntity offerEntity = offerTestDataUtil.createTestOffer(seller);
 
-        mockMvc.perform(
-                        delete("/offers/{id}", offerEntity.getId())
-                                .with(csrf())
-                )
+        mockMvc.perform(delete("/offers/{id}", offerEntity.getId()).with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockUser(
-            username = TEST_ADMIN_USERNAME,
-            roles = {"ADMIN"}
-    )
+    @WithMockUser(username = TEST_ADMIN_USERNAME, roles = {"ADMIN"})
     void testAdminUserNotOwnOffer() throws Exception {
         UserEntity seller = userTestDataUtil.createTestUser(TEST_USER1_USERNAME);
         userTestDataUtil.createTestAdmin(TEST_ADMIN_USERNAME);
         OfferEntity offerEntity = offerTestDataUtil.createTestOffer(seller);
 
-        mockMvc.perform(
-                        delete("/offers/{id}", offerEntity.getId())
-                                .with(csrf())
-                )
+        mockMvc.perform(delete("/offers/{id}", offerEntity.getId()).with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/offers"));
     }
-
 }

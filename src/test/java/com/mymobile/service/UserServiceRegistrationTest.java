@@ -70,9 +70,6 @@ class UserServiceRegistrationTest {
     @Captor
     private ArgumentCaptor<UserEntity> userEntityArgumentCaptor;
 
-    @Captor
-    private ArgumentCaptor<String> activationToken;
-
     @Mock
     private UserService toTest;
 
