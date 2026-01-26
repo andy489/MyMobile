@@ -72,8 +72,9 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'com.icegreen:greenmail:2.0.1'
     testRuntimeOnly 'org.hsqldb:hsqldb'
-
-    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 }
 
 tasks.named('test') {

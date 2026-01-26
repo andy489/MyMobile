@@ -112,8 +112,8 @@
 
 <footer th:fragment="footer" class="footer bg-blur rounded">
     <div class="container-fluid text-center">
-        <div class="h5 text-white" th:text="#{footer_text}">
-            {Spring Playground 2023. Mobilele Application.}
+        <div class="h5 text-white" th:text="#{footer_text(${yearStr})}">
+            Spring Playground 2023. MyMobilele Application.
         </div>
     </div>
 </footer>

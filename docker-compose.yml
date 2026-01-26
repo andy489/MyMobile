@@ -16,5 +16,20 @@ services:
       timeout: 20s
       retries: 10
 
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mymobile-mailhog
+    restart: always
+    ports:
+      - "1025:1025"  # SMTP server (for your Spring Boot app)
+      - "8025:8025"  # Web UI (http://localhost:8025)
+
 volumes:
   mysql_data:
+
+# open -a docker
+# docker-compose up -d
+# docker-compose ps
+# docker exec -it mymobile-mysql mysql -uadmin -p1234 mymobile
+# docker-compose logs mysql
+# docker-comose down -v

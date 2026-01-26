@@ -12,8 +12,10 @@ import java.util.List;
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReCaptchaResponseDto {
-
     private boolean success;
-
+    private Double score;
+    private String action;
+    private String challengeTs;
+    private String hostname;
     private List<String> errorCodes;
 }

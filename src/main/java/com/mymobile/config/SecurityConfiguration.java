@@ -69,7 +69,8 @@ public class SecurityConfiguration {
                                     "/users/register",
                                     "/users/registration-success",
                                     "/users/login-error",
-                                    "/error"
+                                    "/error",
+                                    "/test-recaptcha"
                             ).permitAll()
                             .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                             // the URLs below are available only for moderators or admins

@@ -5,7 +5,10 @@ import com.mymobile.model.dto.ReCaptchaResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriBuilder;
 
@@ -19,26 +22,49 @@ public class ReCaptchaService {
 
     private final WebClient webClient;
 
+    private final RestTemplate restTemplate;
     private final ReCaptchaConfig reCaptchaConfig;
 
-    public ReCaptchaService(WebClient webClient, ReCaptchaConfig reCaptchaConfig) {
+    public ReCaptchaService(WebClient webClient, RestTemplate restTemplate, ReCaptchaConfig reCaptchaConfig) {
         this.webClient = webClient;
+        this.restTemplate = restTemplate;
         this.reCaptchaConfig = reCaptchaConfig;
     }
 
-    public Optional<ReCaptchaResponseDto> verify(String token) {
-        Optional<ReCaptchaResponseDto> v = Optional.ofNullable(webClient.post()
-                .uri(this::buildReCaptchaURI)
-                .body(BodyInserters
-                        .fromFormData("secret", reCaptchaConfig.getSecret())
-                        .with("response", token))
-                .retrieve()
-                .bodyToMono(ReCaptchaResponseDto.class)
-                .doOnError(t -> LOGGER.error("Error fetching google response...", t))
-                .onErrorComplete()
-                .block());
+    public Optional<ReCaptchaResponseDto> verify(String recaptchaResponse) {
+        // If token is null or empty, return empty optional
+        if (recaptchaResponse == null || recaptchaResponse.isBlank()) {
+            LOGGER.warn("Empty reCAPTCHA response received");
+            return Optional.empty();
+        }
 
-        return v;
+        try {
+            String url = "https://www.google.com/recaptcha/api/siteverify";
+
+            // Build parameters - IMPORTANT: Use LinkedMultiValueMap
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.add("secret", reCaptchaConfig.getSecret()); // Get from configuration
+            params.add("response", recaptchaResponse);
+
+            LOGGER.debug("Verifying reCAPTCHA token: {}", recaptchaResponse.substring(0, Math.min(20, recaptchaResponse.length())) + "...");
+
+            // Make the request
+            ReCaptchaResponseDto response = restTemplate.postForObject(
+                    url,
+                    params,
+                    ReCaptchaResponseDto.class
+            );
+
+            LOGGER.debug("reCAPTCHA verification result - Success: {}, Score: {}",
+                    response != null ? response.isSuccess() : "null",
+                    response != null ? response.getScore() : "null");
+
+            return Optional.ofNullable(response);
+
+        } catch (RestClientException e) {
+            LOGGER.error("Error verifying reCAPTCHA: {}", e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     private URI buildReCaptchaURI(UriBuilder uriBuilder) {
