@@ -40,5 +40,4 @@ public class MobileleUserDetailsService implements UserDetailsService {
         return mobileleUserDetails
                 .orElseThrow(() -> new UsernameNotFoundException("User with username " + username + " not found"));
     }
-
 }

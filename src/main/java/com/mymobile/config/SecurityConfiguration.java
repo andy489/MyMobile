@@ -56,7 +56,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((auth) -> {
                     auth
                             // allow access to all static locations defined in StaticResourceLocation enum class
-                            // (images, css, js, webjars, etc.)
+                            // (images, CSS, js, webjars, etc.)
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                             // allow actuator endpoints
                             .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
